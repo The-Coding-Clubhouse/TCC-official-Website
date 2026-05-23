@@ -16,75 +16,106 @@
     <img src="/assets/icons/Frame 2.png" alt="Coding Clubhouse Logo" class="w-32 h-auto">
   </a>
 
-  <nav style="display:flex; align-items:center;">
-    <!-- Hamburger / Close button (mobile only) -->
+  <nav class="navbar">
+
+    <!-- Hamburger (mobile only) -->
     <button
       id="hamburger-btn"
       class="hamburger-icon"
       aria-label="Toggle navigation"
       aria-expanded="false"
       aria-controls="mobile-menu">
-      <img id="hamburger-icon-img" src="/assets/icons/solar_hamburger-menu-bold.png" alt="" aria-hidden="true">
+
+      <img id="hamburger-icon-img"
+           src="/assets/icons/solar_hamburger-menu-bold.png"
+           alt=""
+           aria-hidden="true">
     </button>
 
-    <!-- Desktop links -->
+    <!-- DESKTOP NAV -->
     <ul class="navbar-links-wrapper">
+
       <li><a href="/about.html" class="navbar-links">About Us</a></li>
-       <li>
-        <button class="mobile-menu__programs-btn" id="programs-toggle" aria-expanded="false">
-          Programs
-          <svg id="programs-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <ul class="mobile-menu__submenu" id="programs-submenu">
-          <li><a href="#" class="mobile-menu__sublink">All Programs</a></li>
-          <li><a href="#" class="mobile-menu__sublink">Dream Beyond Limits</a></li>
-          <li><a href="#" class="mobile-menu__sublink">Teacher Training & Youth Empowerment</a></li>
-          <li><a href="#" class="mobile-menu__sublink">Virtual Summer Class</a></li>
-          <li><a href="#" class="mobile-menu__sublink">Code Equity Curriculum</a></li>
+
+      <!-- Programs Desktop -->
+
+
+      <li class="programs">
+        <div class="programs-wrapper">
+          <a href="/programs.html" class="navbar-links">Programs</a>
+
+          <button class="programs-toggle" aria-label="Open programs menu">
+            <svg class="programs-chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <ul class="programs-submenu desktop-only">
+          <li><a href="#">All Programs</a></li>
+          <li><a href="#">Dream Beyond Limits</a></li>
+          <li><a href="#">Teacher Training</a></li>
+          <li><a href="#">Virtual Summer Class</a></li>
+          <li><a href="#">Code Equity Curriculum</a></li>
         </ul>
       </li>
 
       <li><a href="#" class="navbar-links">Resources</a></li>
       <li><a href="#" class="navbar-links">Get Involved</a></li>
+
       <li>
         <a href="#" class="btn-primary bg-brand-yellow text-brand-charcoal flex items-center gap-2">
-          <img src="/assets/icons/Heart.png" alt="" aria-hidden="true"> Donate
+          <img src="/assets/icons/Heart.png" alt="" aria-hidden="true">
+          Donate
         </a>
       </li>
+
       <li><a href="#" class="btn-primary bg-brand-white text-brand-charcoal">Contact Us</a></li>
+
     </ul>
   </nav>
 
-  <!-- Mobile dropdown panel -->
-  <div id="mobile-menu" class="mobile-menu" aria-label="Mobile navigation">
+  <!-- MOBILE MENU -->
+  <div id="mobile-menu" class="mobile-menu">
 
     <ul class="mobile-menu__links">
+
       <li><a href="/about.html" class="mobile-menu__link">About Us</a></li>
 
-      <!-- Programs with submenu -->
-      <li>
-        <button class="mobile-menu__link mobile-menu__programs-btn" id="programs-toggle" aria-expanded="false">
-          Programs
-          <svg id="programs-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <ul class="mobile-menu__submenu" id="programs-submenu">
-          <li><a href="#" class="mobile-menu__sublink">All Programs</a></li>
-          <li><a href="#" class="mobile-menu__sublink">Dream Beyond Limits</a></li>
-          <li><a href="#" class="mobile-menu__sublink">Teacher Training & Youth Empowerment</a></li>
-          <li><a href="#" class="mobile-menu__sublink">Virtual Summer Class</a></li>
-          <li><a href="#" class="mobile-menu__sublink">Code Equity Curriculum</a></li>
+      <!-- Programs Mobile -->
+      <li class="mobile-programs">
+
+        <div class="mobile-programs-header">
+          <a href="/programs.html" class="mobile-menu__link">Programs</a>
+
+          <button class="programs-toggle" aria-expanded="false">
+            <svg class="programs-chevron" xmlns="http://www.w3.org/2000/svg"
+                 width="20" height="20" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+        </div>
+
+        <ul class="programs-submenu mobile-only">
+          <li><a href="/programs.html">All Programs</a></li>
+          <li><a href="#">Dream Beyond Limits</a></li>
+          <li><a href="#">Teacher Training</a></li>
+          <li><a href="#">Virtual Summer Class</a></li>
+          <li><a href="#">Code Equity Curriculum</a></li>
         </ul>
+
       </li>
 
       <li><a href="#" class="mobile-menu__link">Resources</a></li>
       <li><a href="#" class="mobile-menu__link">Get Involved</a></li>
+
     </ul>
 
-    <!-- CTA Buttons -->
     <div class="mobile-menu__btns">
-      <a href="#" class="mobile-menu__donate">
-        <img src="/assets/icons/Heart.png" alt="" aria-hidden="true"> Donate
-      </a>
+      <a href="#" class="mobile-menu__donate">Donate</a>
       <a href="#" class="mobile-menu__contact">Contact Us</a>
     </div>
 

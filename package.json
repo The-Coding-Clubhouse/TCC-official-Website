@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "This repository contains the source code for the official **NGO Website**, built to showcase our mission, projects, and activities while engaging supporters and volunteers.",
   "main": "index.js",
-"scripts": {
-  "dev:css": "npx tailwindcss -i ./src/input.css -o ./output.css --watch",
-  "dev:server": "vite",
-  "dev": "concurrently \"npm run dev:server\" \"npm run dev:css\"",
-  "build": "npx tailwindcss -i ./src/input.css -o ./output.css && vite build"
-},
+  "scripts": {
+    "dev:css": "npx tailwindcss -i ./src/input.css -o ./output.css --watch",
+    "dev:server": "vite",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:css\"",
+    "build": "npx tailwindcss -i ./src/input.css -o ./output.css && vite build"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,5 +17,5 @@
     "tailwindcss": "^3.4.17",
     "vite": "^7.3.1",
     "vite-plugin-static-copy": "^3.0.0"
-}
+  }
 }
