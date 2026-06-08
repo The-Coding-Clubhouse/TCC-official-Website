@@ -622,6 +622,11 @@ body {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
+.container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .hero-header-text {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -1086,6 +1091,46 @@ body {
   color: rgb(45 45 45 / var(--tw-text-opacity, 1));
 }
 
+.mobile-menu__btns {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-menu__donate,
+  .mobile-menu__contact {
+  display: block;
+  width: 100%;
+  border-radius: 0.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  text-decoration-line: none;
+}
+
+.mobile-menu__donate {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 212 71 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(45 45 45 / var(--tw-text-opacity, 1));
+}
+
+.mobile-menu__contact {
+  --tw-bg-opacity: 1;
+  background-color: rgb(140 82 255 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.mobile-programs-header .programs-toggle svg {
+  height: 1.25rem;
+  width: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(45 45 45 / var(--tw-text-opacity, 1));
+}
+
 /* =========================
    BASE
 ========================= */
@@ -1114,6 +1159,10 @@ body {
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
+}
+
+.programs-submenu a {
+  font-weight: 600;
 }
 
 /* =========================
@@ -1256,6 +1305,7 @@ body {
 .intro-cards-container {
   margin: 2.5rem;
   display: block;
+  justify-content: center;
   gap: 2rem;
   --tw-text-opacity: 1;
   color: rgb(45 45 45 / var(--tw-text-opacity, 1));

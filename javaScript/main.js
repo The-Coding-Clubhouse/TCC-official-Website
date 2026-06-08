@@ -35,24 +35,36 @@ function initNavbar() {
   // PROGRAMS DROPDOWN (MOBILE ONLY)
   // =========================
 
-  const mobileProgramsToggle = mobileMenu.querySelector('.programs-toggle');
+  const mobileProgramsHeader = mobileMenu.querySelector('.mobile-programs-header');
+  const mobileProgramsToggle = mobileMenu.querySelector('.mobile-programs-header .programs-toggle');
+  const mobileProgramsLink = mobileMenu.querySelector('.mobile-programs-header .mobile-menu__link');
   const mobileProgramsSubmenu = mobileMenu.querySelector('.programs-submenu.mobile-only');
-  const mobileProgramsChevron = mobileMenu.querySelector('.programs-chevron');
+  const mobileProgramsChevron = mobileMenu.querySelector('.mobile-programs-header .programs-chevron');
+
+  function toggleMobilePrograms() {
+    const isOpen = mobileProgramsSubmenu.classList.toggle('open');
+    mobileProgramsToggle.setAttribute('aria-expanded', isOpen);
+
+    if (mobileProgramsChevron) {
+      mobileProgramsChevron.style.transform = isOpen
+        ? 'rotate(180deg)'
+        : 'rotate(0deg)';
+    }
+  }
 
   if (mobileProgramsToggle && mobileProgramsSubmenu) {
     mobileProgramsToggle.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
+      toggleMobilePrograms();
+    });
+  }
 
-      const isOpen = mobileProgramsSubmenu.classList.toggle('open');
-
-      mobileProgramsToggle.setAttribute('aria-expanded', isOpen);
-
-      if (mobileProgramsChevron) {
-        mobileProgramsChevron.style.transform = isOpen
-          ? 'rotate(180deg)'
-          : 'rotate(0deg)';
-      }
+  if (mobileProgramsLink && mobileProgramsSubmenu) {
+    mobileProgramsLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMobilePrograms();
     });
   }
 
@@ -60,7 +72,11 @@ function initNavbar() {
   // CLOSE MENU ON LINK CLICK
   // =========================
   mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
+      if (link.closest('.mobile-programs-header')) {
+        return;
+      }
+
       mobileMenu.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
       hamburger.style.background = 'transparent';

@@ -35,6 +35,10 @@
     @apply relative text-white flex flex-col items-center justify-center text-center;
   }
 
+  .container {
+    @apply mx-auto;
+  }
+
   .hero-header-text {
     @apply text-5xl font-heading mb-6 my-6 md:my-8 lg:my-10;
   }
@@ -227,6 +231,27 @@
     @apply flex justify-between py-4 text-brand-charcoal border-b;
   }
 
+  .mobile-menu__btns {
+    @apply flex flex-col gap-3 mt-4;
+  }
+
+  .mobile-menu__donate,
+  .mobile-menu__contact {
+    @apply block w-full rounded-xl text-center py-3 font-semibold no-underline;
+  }
+
+  .mobile-menu__donate {
+    @apply bg-brand-yellow text-brand-charcoal;
+  }
+
+  .mobile-menu__contact {
+    @apply bg-brand-purple text-brand-white;
+  }
+
+  .mobile-programs-header .programs-toggle svg {
+    @apply w-5 h-5 text-brand-charcoal;
+  }
+
  /* =========================
    BASE
 ========================= */
@@ -245,6 +270,10 @@
 
 .programs-chevron {
   @apply transition-transform duration-200;
+}
+
+.programs-submenu a {
+  @apply font-semibold;
 }
 
 /* =========================
@@ -324,7 +353,7 @@
   ========================= */
 
   .intro-cards-container {
-    @apply m-10 text-brand-charcoal block md:flex gap-8;
+    @apply m-10 text-brand-charcoal block md:flex gap-8 justify-center;
   }
 
   .card-box-wrapper {
