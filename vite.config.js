@@ -11,6 +11,7 @@ export default defineConfig({
         { src: 'fonts', dest: '.' },
         { src: 'output.css', dest: '.' },
         { src: 'assets', dest: '.' },
+        { src: 'Sandbox', dest: '.' },
       ]
     })
   ],
@@ -27,6 +28,7 @@ export default defineConfig({
     }
   },
   server: {
+    host: '0.0.0.0',
     open: true,
     watch: {
       usePolling: true,
