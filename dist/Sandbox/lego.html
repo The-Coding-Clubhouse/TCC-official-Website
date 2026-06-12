@@ -2899,63 +2899,6 @@ return module$build$src$blocks$blocks;
 
 </script>
 <script src="sandbox.js"></script>
-<script>
-  // Compatibility: older test harnesses call Blockly.Xml.textToDom
-  // Newer Blockly exposes xml helpers at Blockly.utils.xml.textToDom
-  (function(){
-    try {
-      if (typeof Blockly !== 'undefined' && Blockly.Xml && typeof Blockly.Xml.textToDom !== 'function') {
-        if (Blockly.utils && Blockly.utils.xml && typeof Blockly.utils.xml.textToDom === 'function') {
-          Blockly.Xml.textToDom = Blockly.utils.xml.textToDom;
-        } else if (typeof DOMParser !== 'undefined') {
-          Blockly.Xml.textToDom = function(text) { return new DOMParser().parseFromString(text, 'text/xml'); };
-        }
-      }
-    } catch (e) { /* silence */ }
-  })();
-</script>
-<script>
-  // Backwards-compat wrapper so tests that reference `completedLevels` still work.
-  (function(){
-    try {
-      window.completedLevels = {
-        has(idx) {
-          if (typeof currentActivity === 'undefined') return false;
-          if (currentActivity === 'stack') return (typeof stackCompleted !== 'undefined') && stackCompleted.has(idx);
-          if (currentActivity === 'loop')  return (typeof loopCompleted !== 'undefined') && loopCompleted.has(idx);
-          if (currentActivity === 'ifthen') return (typeof ifCompleted !== 'undefined') && ifCompleted.has(idx);
-          if (currentActivity === 'anim')  return (typeof animCompleted !== 'undefined') && animCompleted.has(idx);
-          return false;
-        },
-        add(idx) {
-          if (currentActivity === 'stack' && typeof stackCompleted !== 'undefined') stackCompleted.add(idx);
-          if (currentActivity === 'loop' && typeof loopCompleted !== 'undefined') loopCompleted.add(idx);
-          if (currentActivity === 'ifthen' && typeof ifCompleted !== 'undefined') ifCompleted.add(idx);
-          if (currentActivity === 'anim' && typeof animCompleted !== 'undefined') animCompleted.add(idx);
-        },
-        delete(idx) {
-          if (typeof stackCompleted !== 'undefined') stackCompleted.delete(idx);
-          if (typeof loopCompleted !== 'undefined') loopCompleted.delete(idx);
-          if (typeof ifCompleted !== 'undefined') ifCompleted.delete(idx);
-          if (typeof animCompleted !== 'undefined') animCompleted.delete(idx);
-        },
-        clear() {
-          if (typeof stackCompleted !== 'undefined') stackCompleted.clear();
-          if (typeof loopCompleted !== 'undefined') loopCompleted.clear();
-          if (typeof ifCompleted !== 'undefined') ifCompleted.clear();
-          if (typeof animCompleted !== 'undefined') animCompleted.clear();
-        },
-        get size() {
-          if (currentActivity === 'stack') return stackCompleted ? stackCompleted.size : 0;
-          if (currentActivity === 'loop')  return loopCompleted ? loopCompleted.size : 0;
-          if (currentActivity === 'ifthen') return ifCompleted ? ifCompleted.size : 0;
-          if (currentActivity === 'anim')  return animCompleted ? animCompleted.size : 0;
-          return 0;
-        }
-      };
-    } catch (e) { /* ignore */ }
-  })();
-</script>
 <script src="activities/stage-engine.js"></script>
 <script src="activities/lego.js"></script>
 <script src="activities/loop-builder.js"></script>
@@ -3000,7 +2943,6 @@ function switchActivity(name) {
     levelNav.style.display = 'flex';
   }
 
-  // remove any Level-4 free-controls UI left behind from Loop activity
   try { const fc = document.getElementById('free-controls'); if (fc) fc.remove(); } catch(e){}
 
   // Keep the shared Blockly workspace in the left panel for all activities.
@@ -3061,14 +3003,6 @@ function nextLevel() {
   else if (currentActivity === 'anim')   { if (currentLevel  < 3) loadAnimLevel(currentLevel + 1); }
 }
 
-function getCompletedCount() {
-  if (currentActivity === 'stack') return typeof stackCompleted !== 'undefined' ? stackCompleted.size : 0;
-  if (currentActivity === 'loop') return typeof loopCompleted !== 'undefined' ? loopCompleted.size : 0;
-  if (currentActivity === 'ifthen') return typeof ifCompleted !== 'undefined' ? ifCompleted.size : 0;
-  if (currentActivity === 'anim') return typeof animCompleted !== 'undefined' ? animCompleted.size : 0;
-  return 0;
-}
-
 /* updateProgress — override sandbox.js version to work for all activities */
 function updateProgress() {
   const fill = document.getElementById('progress-fill');
@@ -3079,10 +3013,9 @@ function updateProgress() {
     text.textContent = '🌟 All unlocked';
     return;
   }
-  const completed = getCompletedCount();
-  const pct = Math.round((completed / 4) * 100);
+  const pct = Math.round((completedLevels.size / 4) * 100);
   fill.style.width = pct + '%';
-  text.textContent = completed + ' / 4';
+  text.textContent = completedLevels.size + ' / 4';
 }
 
 /* showCelebration — override to use the existing #celebration overlay */
