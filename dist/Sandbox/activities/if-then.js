@@ -35,7 +35,6 @@ const IF_LEVELS = [
 let ifWorkspace = null;
 let compiledRules = {};
 let testedLights = new Set();
-let ifCompleted = new Set();
 
 function registerIfBlocks(colors, reactions) {
   Blockly.Blocks['if_light_rule'] = {
@@ -67,7 +66,6 @@ function loadIfLevel(idx) {
   renderBulbs(lvl.bulbs, lvl.activeBulbs);
   registerIfBlocks(lvl.bulbs, lvl.reactions);
 
-  // Dispose other activities' workspaces to avoid multiple workspaces sharing #blocklyDiv
   try { if (ifWorkspace) { ifWorkspace.dispose(); ifWorkspace = null; } } catch(e){}
   try { if (typeof workspace !== 'undefined' && workspace) { workspace.dispose(); workspace = null; } } catch(e){}
   try { if (typeof loopWorkspace !== 'undefined' && loopWorkspace) { loopWorkspace.dispose(); loopWorkspace = null; } } catch(e){}
@@ -88,12 +86,8 @@ function loadIfLevel(idx) {
   ifWorkspace.addChangeListener(() => {
     const el = document.getElementById('if-block-count');
     if (el) el.textContent = String(ifWorkspace.getAllBlocks(false).length);
-    testedLights.clear();
-    const btn = document.getElementById('if-next-btn');
-    if (btn) btn.style.display = 'none';
   });
 
-  // create Next Level button (hidden) in the ws-toolbar so users can advance after testing
   try {
     const toolbar = document.querySelector('#panel-ifthen .ws-toolbar');
     if (toolbar && !document.getElementById('if-next-btn')) {
@@ -169,8 +163,8 @@ function testLight(color) {
     }
     const testedAll = lvl.activeBulbs.every(c => testedLights.has(c));
     const allHaveRule = lvl.activeBulbs.every(c => compiledRules[c]);
-    if (testedAll && allHaveRule && !ifCompleted.has(currentLevel)) {
-      ifCompleted.add(currentLevel);
+    if (testedAll && allHaveRule && !completedLevels.has(currentLevel)) {
+      completedLevels.add(currentLevel);
       updateProgress();
       setTimeout(() => {
         showCelebration(currentLevel, lvl);

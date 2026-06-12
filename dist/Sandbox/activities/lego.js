@@ -38,7 +38,7 @@ const LEVELS = [
 ];
 
 let currentLevel = 0;
-let stackCompleted = new Set();
+let completedLevels = new Set();
 let workspace = null;
 
 function loadLevel(idx) {
@@ -154,7 +154,7 @@ function runCode() {
 
   if (correct) {
     showFeedback('success', '✅ Perfect match! Great job.');
-    stackCompleted.add(currentLevel);
+    completedLevels.add(currentLevel);
     updateProgress();
     setTimeout(() => showCelebration(currentLevel, lvl), 700);
   } else if (stack.length < lvl.target.length) {

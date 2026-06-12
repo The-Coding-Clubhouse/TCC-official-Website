@@ -3,9 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Virtual Lego</title>
+<title>Virtual Lego — Coding Clubhouse</title>
 <link rel="stylesheet" href="../output.css">
 <link rel="stylesheet" href="sandbox.css">
+<style>
+  /* ── Activity switcher bar ── */
+  .activity-bar {
+    background: #0f3460;
+    padding: 8px 16px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    border-bottom: 2px solid #1a1a2e;
+    flex-wrap: wrap;
+  }
+  .activity-bar .bar-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #7ec8e3;
+    margin-right: 4px;
+  }
+  .act-btn {
+    background: #1a1a2e;
+    border: 2px solid #1a1a2e;
+    color: #aaa;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .act-btn.active { background: #e94560; border-color: #e94560; color: #fff; }
+  .act-btn:hover:not(.active) { border-color: #7ec8e3; color: #7ec8e3; }
+
+  /* ── Activity panels: only active one is shown ── */
+  .activity-panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+  .activity-panel.active { display: flex; }
+
+  /* ── Traffic light panel (Day 3) ── */
+  .tl-wrap {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  .light-panel {
+    width: 220px;
+    flex-shrink: 0;
+    background: #16213e;
+    border-right: 2px solid #0f3460;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 12px;
+    gap: 12px;
+  }
+  .light-panel h3 {
+    font-size: 11px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1px; color: #7ec8e3;
+  }
+  .traffic-light-housing {
+    background: #111; border-radius: 14px;
+    padding: 12px 18px; display: flex;
+    flex-direction: column; gap: 10px;
+    border: 3px solid #333;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .bulb {
+    width: 56px; height: 56px; border-radius: 50%;
+    cursor: pointer; transition: all 0.15s;
+    border: 3px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    user-select: none; position: relative;
+  }
+  .bulb:hover { transform: scale(1.08); }
+  .bulb.off  { filter: brightness(0.22); }
+  .bulb.on   { filter: brightness(1); box-shadow: 0 0 22px var(--glow); }
+  .bulb[data-color="red"]    { background:#e63946; --glow:rgba(230,57,70,0.7); }
+  .bulb[data-color="yellow"] { background:#f4d35e; --glow:rgba(244,211,94,0.7); }
+  .bulb[data-color="green"]  { background:#2ecc71; --glow:rgba(46,204,113,0.7); }
+  .bulb[data-color="orange"] { background:#e67e22; --glow:rgba(230,126,34,0.7); }
+  .bulb[data-color="pink"]   { background:#ff69b4; --glow:rgba(255,105,180,0.7); }
+  .bulb.locked { opacity:0.3; cursor:not-allowed; pointer-events:none; }
+  .bulb.locked::after { content:'🔒'; position:absolute; font-size:13px; bottom:-3px; right:-3px; }
+  .reaction-screen {
+    background:#0a0a1a; border-radius:10px;
+    width:100%; min-height:80px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:4px;
+    border:2px solid #0f3460; padding:10px; text-align:center;
+  }
+  .reaction-emoji { font-size:30px; line-height:1; }
+  .reaction-label { font-size:13px; font-weight:800; color:#fff; }
+  .reaction-hint  { font-size:10px; color:#7ec8e3; font-weight:600; }
+
+  /* ── Stage panel (Day 4 + 5) ── */
+  .stage-wrap {
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    overflow:hidden;
+    gap:12px;
+    min-height:0;
+    align-items:stretch;
+  }
+  .stage-panel {
+    width: 100%;
+    flex: 0 0 auto;
+    background: #16213e;
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .stage-label {
+    background:#0f3460; padding:10px 14px;
+    font-size:12px; font-weight:800;
+    text-transform:uppercase; letter-spacing:1px; color:#7ec8e3;
+  }
+  .stage-screen {
+    flex:1;
+    min-height:260px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    position:relative; overflow:hidden; transition:background 0.4s;
+    background:#0a0a1a;
+    border-radius:18px;
+    margin:12px 12px 0;
+    padding:18px;
+  }
+  .stage-bg-label {
+    position:absolute; top:7px; left:0; right:0;
+    text-align:center; font-size:10px;
+    font-weight:700; color:rgba(255,255,255,0.35);
+  }
+  .stage-character {
+    font-size:50px; line-height:1;
+    transition:transform 0.25s; position:relative; user-select:none;
+  }
+  .stage-speech {
+    background:rgba(255,255,255,0.92); color:#1a1a2e;
+    border-radius:10px; padding:5px 10px;
+    font-size:12px; font-weight:800; margin-top:6px;
+    max-width:180px; text-align:center;
+    min-height:26px; display:flex;
+    align-items:center; justify-content:center; transition:opacity 0.2s;
+  }
+  .stage-speech.hidden { opacity:0; }
+  .stage-buttons {
+    padding:10px 12px;
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    flex-wrap:wrap;
+    background:#0f3460;
+    border-top:1px solid #0f3460;
+  }
+  .key-btn {
+    font-family:'Nunito',sans-serif;
+    font-size:12px;
+    font-weight:800;
+    padding:8px 12px;
+    border-radius:10px;
+    border:2px solid #1a1a2e;
+    background:#1a1a2e;
+    color:#aaa;
+    cursor:pointer;
+    transition:all 0.15s;
+    min-width:56px;
+  }
+  .key-btn:hover  { border-color:#7ec8e3; color:#7ec8e3; }
+  .key-btn.active { background:#e94560; border-color:#e94560; color:#fff; transform:scale(0.96); }
+  .key-btn.locked { opacity:0.3; cursor:not-allowed; pointer-events:none; }
+  .event-log {
+    min-height:90px;
+    max-height:140px;
+    overflow-y:auto;
+    padding:10px 12px;
+    font-size:11px;
+    font-weight:600;
+    color:#aaa;
+    border-top:1px solid #0f3460;
+    background:#0a0a1a;
+  }
+  .event-log p { margin:2px 0; }
+  .event-log p.new { color:#06d6a0; }
+
+  /* brick mini row (Day 5) */
+  .brick-mini-row {
+    padding:6px 10px; display:flex;
+    gap:3px; flex-wrap:wrap; align-items:center;
+    border-top:1px solid #0f3460; min-height:34px;
+  }
+  .mini-brick {
+    width:24px; height:14px; border-radius:3px; flex-shrink:0;
+  }
+
+  /* ── Shared workspace area ── */
+  .ws-panel { flex:1; display:flex; flex-direction:column; min-width:0; }
+  .ws-toolbar {
+    background:#0f3460; padding:7px 14px;
+    display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  }
+  .ws-toolbar .btn-run  { background:#06d6a0; color:#0f3460; font-family:'Nunito',sans-serif; font-size:13px; font-weight:800; padding:6px 16px; border-radius:8px; border:none; cursor:pointer; }
+  .ws-toolbar .btn-run:hover { background:#04c48e; }
+  .ws-toolbar .btn-clear{ background:#e94560; color:#fff; font-family:'Nunito',sans-serif; font-size:13px; font-weight:800; padding:6px 12px; border-radius:8px; border:none; cursor:pointer; }
+  .ws-toolbar .block-counter { font-size:12px; color:#aaa; font-weight:700; }
+
+  /* backgrounds for stage */
+  .bg-city   { background:linear-gradient(180deg,#0f3460 0%,#1a1a2e 100%) !important; }
+  .bg-forest { background:linear-gradient(180deg,#1b4332 0%,#2d6a4f 100%) !important; }
+  .bg-space  { background:linear-gradient(180deg,#03071e 0%,#0f3460 100%) !important; }
+  .bg-beach  { background:linear-gradient(180deg,#90e0ef 0%,#caf0f8 100%) !important; }
+  .bg-home   { background:linear-gradient(180deg,#e9c46a 0%,#f4a261 100%) !important; }
+
+  @media (max-width:700px) {
+    .tl-wrap, .stage-wrap { flex-direction:column; }
+    .light-panel, .stage-panel { width:100%; border-right:none; border-bottom:2px solid #0f3460; }
+  }
+</style>
 </head>
 <body>
 
@@ -14,49 +234,56 @@
     <img src="../assets/icons/Frame 2.png" alt="The Coding Clubhouse Logo" class="w-32 h-auto">
   </a>
   <div class="day-tag">Virtual Lego</div>
-  <div class="mission">🧱 Stack Builder — What Is Coding?</div>
-  <div class="activity-switch" style="margin-left:12px; display:flex; gap:6px; flex-wrap:wrap;">
-    <button id="activity-stack" class="level-btn active" onclick="switchActivity('stack')">Day 1: Stack</button>
-    <button id="activity-loop"  class="level-btn" onclick="switchActivity('loop')">Day 2: Loops</button>
-    <button id="activity-if"   class="level-btn" onclick="switchActivity('if')">Day 3: If-Then</button>
-    <button id="activity-anim" class="level-btn" onclick="switchActivity('anim')">Day 4: Animator</button>
-    <button id="activity-fp"   class="level-btn" onclick="switchActivity('fp')">Day 5: Free</button>
-  </div>
+  <div class="mission" id="mission-label">🧱 Stack Builder — What Is Coding?</div>
 </header>
 
+<!-- ── ACTIVITY SWITCHER ── -->
+<div class="activity-bar">
+  <span class="bar-label">Activity:</span>
+  <button class="act-btn active" id="act-btn-stack"  onclick="switchActivity('stack')">🧱 Day 1 — Stack</button>
+  <button class="act-btn"        id="act-btn-loop"   onclick="switchActivity('loop')">🔁 Day 2 — Loops</button>
+  <button class="act-btn"        id="act-btn-ifthen" onclick="switchActivity('ifthen')">🚦 Day 3 — If-Then</button>
+  <button class="act-btn"        id="act-btn-anim"   onclick="switchActivity('anim')">🎬 Day 4 — Animator</button>
+  <button class="act-btn"        id="act-btn-fp"     onclick="switchActivity('fp')">🌟 Day 5 — Free Build</button>
+</div>
+
+<!-- ── SHARED BLOCKLY WORKSPACE ── -->
 <div class="main">
   <div id="blockly-panel">
-    <div class="panel-label">
-      🔧 Your Code Workspace — drag blocks here to build your stack
+    <div class="panel-label" id="ws-panel-label">
+      🔧 Your Code Workspace — drag blocks here
     </div>
     <div id="blocklyDiv"></div>
   </div>
 
+  <!-- ── RIGHT PANEL ── -->
   <div id="right-panel">
 
-    <!-- Level buttons (shared) -->
-    <div class="levels">
+    <!-- LEVEL BUTTONS (Days 1–4 have levels; Day 5 is free) -->
+    <div class="levels" id="level-nav">
       <span>Level:</span>
-      <button class="level-btn active" onclick="loadLevel(0)">1</button>
-      <button class="level-btn" onclick="loadLevel(1)">2</button>
-      <button class="level-btn" onclick="loadLevel(2)">3</button>
-      <button class="level-btn" onclick="loadLevel(3)">4</button>
+      <button class="level-btn active" onclick="levelBtn(0)">1</button>
+      <button class="level-btn"        onclick="levelBtn(1)">2</button>
+      <button class="level-btn"        onclick="levelBtn(2)">3</button>
+      <button class="level-btn"        onclick="levelBtn(3)">4</button>
     </div>
 
-    <!-- Goal card (shared) -->
+    <!-- GOAL CARD -->
     <div class="goal-card" id="goal-card">
       <div class="goal-title">🎯 Mission</div>
       <div class="goal-text" id="goal-text">Loading...</div>
     </div>
 
-    <!-- ── DAY 1 & 2 panel: stack display ── -->
-    <div id="panel-stack-loop">
+    <!-- ─────────────────────────────────────────── -->
+    <!-- DAY 1 + 2 PANEL: brick stacks              -->
+    <!-- ─────────────────────────────────────────── -->
+    <div id="panel-stack" class="activity-panel active">
       <div class="target-area">
-        <div class="area-label">🧱 Target stack &nbsp;→&nbsp; Your stack</div>
+        <div class="area-label" id="stack-area-label">🧱 Target stack → Your stack</div>
         <div class="stacks-row">
           <div class="stack-col">
             <div class="stack-bricks" id="target-stack"></div>
-            <div class="col-label">Target<br>(match this!)</div>
+            <div class="col-label" id="target-col-label">Target<br>(match this!)</div>
           </div>
           <div class="stack-col">
             <div class="stack-bricks" id="my-stack"></div>
@@ -64,72 +291,112 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- ── DAY 3 panel: traffic light ── -->
-    <div id="panel-if" style="display:none; padding:12px;">
-      <div id="traffic-light" style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:12px;"></div>
-      <div style="background:#0f3460; border-radius:10px; padding:12px; text-align:center;">
-        <div id="reaction-emoji" style="font-size:40px;">❓</div>
-        <div id="reaction-label" style="font-size:18px; font-weight:800; margin:6px 0; color:#7ec8e3;">No light clicked yet</div>
-        <div id="reaction-hint" style="font-size:12px; color:#aaa;">Click Run then click a light above</div>
+      <hr class="divider">
+      <div class="controls">
+        <button class="btn btn-run"   id="run-btn"   onclick="actRun()">▶ Run</button>
+        <button class="btn btn-clear" id="clear-btn" onclick="actClear()">↺ Clear</button>
       </div>
-      <div style="margin-top:8px;">
-        <div style="font-size:11px; font-weight:800; color:#7ec8e3; text-transform:uppercase; margin-bottom:4px;">Block count: <span id="if-block-count" style="color:#f4d35e;">0</span></div>
+      <div id="block-counter" style="padding:0 12px 4px;font-size:11px;color:#aaa;font-weight:700;">
+        Blocks used: <strong id="block-count">0</strong>
       </div>
     </div>
 
-    <!-- ── DAY 4 panel: story animator stage ── -->
-    <div id="panel-anim" style="display:none; padding:12px;">
-      <div id="stage-screen" class="stage-screen bg-city" style="position:relative; height:120px; border-radius:10px; overflow:hidden; margin-bottom:8px;">
-        <div id="stage-character" style="position:absolute; bottom:8px; left:50%; font-size:32px; transition:all 0.3s;">🧒</div>
-        <div id="stage-speech" class="hidden" style="position:absolute; top:6px; left:50%; transform:translateX(-50%); background:#fff; color:#333; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:700; white-space:nowrap;"></div>
-        <div id="bg-label" style="position:absolute; bottom:4px; right:6px; font-size:10px; color:rgba(255,255,255,0.5);">City</div>
-      </div>
-      <div id="stage-buttons" style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:8px;"></div>
-      <div style="background:#0f3460; border-radius:8px; padding:8px; font-size:11px; max-height:80px; overflow-y:auto;" id="event-log"><p>Press Run then click a button!</p></div>
-      <div style="margin-top:6px; font-size:11px; font-weight:800; color:#7ec8e3;">Blocks: <span id="anim-block-count" style="color:#f4d35e;">0</span></div>
-    </div>
-
-    <!-- ── DAY 5 panel: free project stage ── -->
-    <div id="panel-fp" style="display:none; padding:12px;">
-      <div id="fp-stage-screen" class="stage-screen bg-city" style="position:relative; height:120px; border-radius:10px; overflow:hidden; margin-bottom:8px;">
-        <div id="fp-stage-character" style="position:absolute; bottom:8px; left:50%; font-size:32px; transition:all 0.3s;">🧒</div>
-        <div id="fp-stage-speech" class="hidden" style="position:absolute; top:6px; left:50%; transform:translateX(-50%); background:#fff; color:#333; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:700; white-space:nowrap;"></div>
-        <div id="fp-bg-label" style="position:absolute; bottom:4px; right:6px; font-size:10px; color:rgba(255,255,255,0.5);">City</div>
-      </div>
-      <div id="fp-stage-buttons" style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:8px;"></div>
-      <div style="background:#0f3460; border-radius:8px; padding:8px; font-size:11px; max-height:60px; overflow-y:auto;" id="fp-event-log"><p>Press Run then use the buttons!</p></div>
-      <div style="margin-top:6px; display:flex; gap:12px; align-items:center;">
-        <span style="font-size:11px; font-weight:800; color:#7ec8e3;">Blocks: <span id="fp-block-count" style="color:#f4d35e;">0</span></span>
-        <div id="fp-brick-row" style="display:flex; gap:3px; flex-wrap:wrap;"></div>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="controls">
-      <button class="btn btn-run" onclick="runActivity()">▶ Run</button>
-      <button class="btn btn-clear" onclick="clearActivity()">↺ Clear</button>
-      <div id="block-counter" style="min-width:120px; display:flex; align-items:center; justify-content:center; font-weight:800; color:#aaa;">
-        Blocks: <span id="block-count" style="margin-left:8px; color:#f4d35e;">0</span>
+    <!-- ─────────────────────────────────────────── -->
+    <!-- DAY 3 PANEL: traffic light                  -->
+    <!-- ─────────────────────────────────────────── -->
+    <div id="panel-ifthen" class="activity-panel">
+      <div class="tl-wrap">
+        <div class="light-panel">
+          <h3>🚦 Traffic Light</h3>
+          <div class="traffic-light-housing" id="traffic-light"></div>
+          <p style="font-size:10px;color:#aaa;text-align:center;font-weight:600;">Click a light to test your rules!</p>
+          <div class="reaction-screen">
+            <div class="reaction-emoji" id="reaction-emoji">❓</div>
+            <div class="reaction-label" id="reaction-label">No light clicked yet</div>
+            <div class="reaction-hint"  id="reaction-hint">Click Run, then click a light</div>
+          </div>
+        </div>
+        <div class="ws-panel" style="display:flex;flex-direction:column;">
+          <div class="ws-toolbar">
+            <button class="btn-run"   onclick="actRun()">▶ Run Rules</button>
+            <button class="btn-clear" onclick="actClear()">↺ Clear</button>
+            <span class="block-counter">Blocks: <strong id="if-block-count">0</strong></span>
+          </div>
+          <!-- blocklyDiv is shared — moved here via JS -->
+        </div>
       </div>
     </div>
 
+    <!-- ─────────────────────────────────────────── -->
+    <!-- DAY 4 PANEL: story animator                 -->
+    <!-- ─────────────────────────────────────────── -->
+    <div id="panel-anim" class="activity-panel">
+      <div class="stage-wrap">
+        <div class="stage-panel">
+          <div class="stage-label">🎭 Stage</div>
+          <div class="stage-screen bg-city" id="stage-screen">
+            <div class="stage-bg-label" id="bg-label">City</div>
+            <div class="stage-character" id="stage-character">🧒</div>
+            <div class="stage-speech hidden" id="stage-speech">Hello!</div>
+          </div>
+          <div class="stage-buttons" id="stage-buttons"></div>
+          <div class="event-log" id="event-log"><p>Press Run then click a button!</p></div>
+        </div>
+        <div class="ws-panel" style="display:flex;flex-direction:column;">
+          <div class="ws-toolbar">
+            <button class="btn-run"   onclick="actRun()">▶ Run</button>
+            <button class="btn-clear" onclick="actClear()">↺ Clear</button>
+            <span class="block-counter">Blocks: <strong id="anim-block-count">0</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────── -->
+    <!-- DAY 5 PANEL: free sandbox                   -->
+    <!-- ─────────────────────────────────────────── -->
+    <div id="panel-fp" class="activity-panel">
+      <div class="stage-wrap">
+        <div class="stage-panel">
+          <div class="stage-label">🎭 Stage</div>
+          <div class="stage-screen bg-city" id="fp-stage-screen">
+            <div class="stage-bg-label" id="fp-bg-label">City</div>
+            <div class="stage-character" id="fp-stage-character">🧒</div>
+            <div class="stage-speech hidden" id="fp-stage-speech">Hello!</div>
+          </div>
+          <div class="stage-buttons" id="fp-stage-buttons"></div>
+          <div class="brick-mini-row">
+            <span style="font-size:10px;color:#aaa;font-weight:700;min-width:50px;">🧱 Bricks:</span>
+            <div id="fp-brick-row" style="display:flex;gap:3px;flex-wrap:wrap;"></div>
+          </div>
+          <div class="event-log" id="fp-event-log"><p>Press Run then use the buttons!</p></div>
+        </div>
+        <div class="ws-panel" style="display:flex;flex-direction:column;">
+          <div class="ws-toolbar">
+            <button class="btn-run"   onclick="actRun()">▶ Run</button>
+            <button class="btn-clear" onclick="actClear()">↺ Clear</button>
+            <span class="block-counter">Blocks: <strong id="fp-block-count">0</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHARED FEEDBACK + PROGRESS (shown for all activities) -->
     <div class="feedback" id="feedback"></div>
-
     <div class="progress-wrap">
       <div class="progress-label">
-        <span>Levels complete</span>
+        <span id="progress-label-text">Levels complete</span>
         <span id="progress-text">0 / 4</span>
       </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progress-fill" style="width:0%"></div>
       </div>
     </div>
-  </div>
-</div>
 
+  </div><!-- end #right-panel -->
+</div><!-- end .main -->
+
+<!-- CELEBRATION OVERLAY -->
 <div id="celebration">
   <div class="big-text" id="celeb-emoji">🎉</div>
   <div class="big-text" style="font-size:28px;" id="celeb-title">Level Complete!</div>
@@ -2631,65 +2898,7 @@ return module$build$src$blocks$blocks;
 //# sourceMappingURL=blocks_compressed.js.map
 
 </script>
-
 <script src="sandbox.js"></script>
-<script>
-  // Compatibility: older test harnesses call Blockly.Xml.textToDom
-  // Newer Blockly exposes xml helpers at Blockly.utils.xml.textToDom
-  (function(){
-    try {
-      if (typeof Blockly !== 'undefined' && Blockly.Xml && typeof Blockly.Xml.textToDom !== 'function') {
-        if (Blockly.utils && Blockly.utils.xml && typeof Blockly.utils.xml.textToDom === 'function') {
-          Blockly.Xml.textToDom = Blockly.utils.xml.textToDom;
-        } else if (typeof DOMParser !== 'undefined') {
-          Blockly.Xml.textToDom = function(text) { return new DOMParser().parseFromString(text, 'text/xml'); };
-        }
-      }
-    } catch (e) { /* silence */ }
-  })();
-</script>
-<script>
-  // Backwards-compat wrapper so tests that reference `completedLevels` still work.
-  (function(){
-    try {
-      window.completedLevels = {
-        has(idx) {
-          if (typeof currentActivity === 'undefined') return false;
-          if (currentActivity === 'stack') return (typeof stackCompleted !== 'undefined') && stackCompleted.has(idx);
-          if (currentActivity === 'loop')  return (typeof loopCompleted !== 'undefined') && loopCompleted.has(idx);
-          if (currentActivity === 'ifthen') return (typeof ifCompleted !== 'undefined') && ifCompleted.has(idx);
-          if (currentActivity === 'anim')  return (typeof animCompleted !== 'undefined') && animCompleted.has(idx);
-          return false;
-        },
-        add(idx) {
-          if (currentActivity === 'stack' && typeof stackCompleted !== 'undefined') stackCompleted.add(idx);
-          if (currentActivity === 'loop' && typeof loopCompleted !== 'undefined') loopCompleted.add(idx);
-          if (currentActivity === 'ifthen' && typeof ifCompleted !== 'undefined') ifCompleted.add(idx);
-          if (currentActivity === 'anim' && typeof animCompleted !== 'undefined') animCompleted.add(idx);
-        },
-        delete(idx) {
-          if (typeof stackCompleted !== 'undefined') stackCompleted.delete(idx);
-          if (typeof loopCompleted !== 'undefined') loopCompleted.delete(idx);
-          if (typeof ifCompleted !== 'undefined') ifCompleted.delete(idx);
-          if (typeof animCompleted !== 'undefined') animCompleted.delete(idx);
-        },
-        clear() {
-          if (typeof stackCompleted !== 'undefined') stackCompleted.clear();
-          if (typeof loopCompleted !== 'undefined') loopCompleted.clear();
-          if (typeof ifCompleted !== 'undefined') ifCompleted.clear();
-          if (typeof animCompleted !== 'undefined') animCompleted.clear();
-        },
-        get size() {
-          if (currentActivity === 'stack') return stackCompleted ? stackCompleted.size : 0;
-          if (currentActivity === 'loop')  return loopCompleted ? loopCompleted.size : 0;
-          if (currentActivity === 'ifthen') return ifCompleted ? ifCompleted.size : 0;
-          if (currentActivity === 'anim')  return animCompleted ? animCompleted.size : 0;
-          return 0;
-        }
-      };
-    } catch (e) { /* ignore */ }
-  })();
-</script>
 <script src="activities/stage-engine.js"></script>
 <script src="activities/lego.js"></script>
 <script src="activities/loop-builder.js"></script>
@@ -2734,7 +2943,6 @@ function switchActivity(name) {
     levelNav.style.display = 'flex';
   }
 
-  // remove any Level-4 free-controls UI left behind from Loop activity
   try { const fc = document.getElementById('free-controls'); if (fc) fc.remove(); } catch(e){}
 
   // Keep the shared Blockly workspace in the left panel for all activities.
@@ -2795,14 +3003,6 @@ function nextLevel() {
   else if (currentActivity === 'anim')   { if (currentLevel  < 3) loadAnimLevel(currentLevel + 1); }
 }
 
-function getCompletedCount() {
-  if (currentActivity === 'stack') return typeof stackCompleted !== 'undefined' ? stackCompleted.size : 0;
-  if (currentActivity === 'loop') return typeof loopCompleted !== 'undefined' ? loopCompleted.size : 0;
-  if (currentActivity === 'ifthen') return typeof ifCompleted !== 'undefined' ? ifCompleted.size : 0;
-  if (currentActivity === 'anim') return typeof animCompleted !== 'undefined' ? animCompleted.size : 0;
-  return 0;
-}
-
 /* updateProgress — override sandbox.js version to work for all activities */
 function updateProgress() {
   const fill = document.getElementById('progress-fill');
@@ -2813,10 +3013,9 @@ function updateProgress() {
     text.textContent = '🌟 All unlocked';
     return;
   }
-  const completed = getCompletedCount();
-  const pct = Math.round((completed / 4) * 100);
+  const pct = Math.round((completedLevels.size / 4) * 100);
   fill.style.width = pct + '%';
-  text.textContent = completed + ' / 4';
+  text.textContent = completedLevels.size + ' / 4';
 }
 
 /* showCelebration — override to use the existing #celebration overlay */

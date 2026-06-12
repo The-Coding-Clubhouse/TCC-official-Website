@@ -93,7 +93,6 @@ function buildFPToolbox() {
 
 /* Called by switchActivity when entering Day 5 for the first time */
 function setupFPWorkspace() {
-  // Dispose other activities' workspaces to avoid multiple workspaces sharing #blocklyDiv
   try { if (fpWorkspace) { fpWorkspace.dispose(); fpWorkspace = null; } } catch(e){}
   try { if (typeof workspace !== 'undefined' && workspace) { workspace.dispose(); workspace = null; } } catch(e){}
   try { if (typeof loopWorkspace !== 'undefined' && loopWorkspace) { loopWorkspace.dispose(); loopWorkspace = null; } } catch(e){}

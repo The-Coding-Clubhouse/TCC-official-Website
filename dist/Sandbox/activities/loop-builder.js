@@ -1,5 +1,4 @@
 // Loop Builder activity for Virtual Lego
-// Exposes switchActivity('stack'|'loop'), runActivity(), clearActivity()
 
 const LOOP_LEVELS = [
   {
@@ -31,42 +30,6 @@ const LOOP_LEVELS = [
 let loopWorkspace = null;
 let currentLoopLevel = 0;
 let loopCompleted = new Set();
-let currentActivity = 'stack'; // default
-
-function switchActivity(name) {
-  currentActivity = name;
-  document.getElementById('activity-stack').classList.toggle('active', name === 'stack');
-  document.getElementById('activity-loop').classList.toggle('active', name === 'loop');
-
-  // Dispose any existing workspace (either from stack activity or loop)
-  try { if (window.workspace) window.workspace.dispose(); } catch(e){}
-  try { if (loopWorkspace) loopWorkspace.dispose(); } catch(e){}
-
-  if (name === 'stack') {
-    // reload first stack level
-    if (typeof loadLevel === 'function') loadLevel(0);
-    document.querySelector('.mission').textContent = '🧱 Stack Builder — What Is Coding?';
-  } else {
-    // initialize loop activity UI
-    document.querySelector('.mission').textContent = '🔁 Loop Builder — Make repetition visible';
-    loadLoopLevel(0);
-  }
-}
-
-function runActivity() {
-  if (currentActivity === 'stack') {
-    if (typeof runCode === 'function') runCode();
-  } else {
-    loopRun();
-  }
-}
-function clearActivity() {
-  if (currentActivity === 'stack') {
-    if (typeof clearStack === 'function') clearStack();
-  } else {
-    loopClear();
-  }
-}
 
 // --- Blockly block definitions for loop builder ---
 function registerLoopBlocks(colors) {
@@ -100,8 +63,7 @@ function registerLoopBlocks(colors) {
     "helpUrl": ""
   };
 
-  if (!Blockly.Blocks["place_brick"])  Blockly.defineBlocksWithJsonArray([placeBlock]);
-  if (!Blockly.Blocks["repeat_block"]) Blockly.defineBlocksWithJsonArray([repeatBlock]);
+  Blockly.defineBlocksWithJsonArray([placeBlock, repeatBlock]);
 }
 
 function buildLoopToolbox(colors) {
@@ -187,7 +149,8 @@ function loadLoopLevel(idx) {
 
   const updateLoopPreview = () => {
     const seq = evaluateWorkspaceSequence(loopWorkspace);
-    renderMyStack(seq, LOOP_LEVELS[currentLoopLevel].target || []);
+    const bst = seq.slice().reverse();
+    renderMyStack(bst, LOOP_LEVELS[currentLoopLevel].target || []);
     const count = loopWorkspace.getAllBlocks(false).length;
     const el = document.getElementById('block-count');
     if (el) {
@@ -223,7 +186,6 @@ function loadLoopLevel(idx) {
       const c1 = document.createElement('select'); c1.id='free-col-1';
       const c2 = document.createElement('select'); c2.id='free-col-2';
       ['red','blue','yellow','green','orange','purple','pink','white'].forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; c1.appendChild(o); const o2=o.cloneNode(true); c2.appendChild(o2); });
-      // improve contrast on selects and inputs and make them responsive
       [c1, c2].forEach(s => {
         s.style.background = '#16213e'; s.style.color = '#fff'; s.style.border = '1px solid rgba(255,255,255,0.06)';
         s.style.padding = '6px 8px'; s.style.borderRadius = '6px';
@@ -240,7 +202,7 @@ function loadLoopLevel(idx) {
         LOOP_LEVELS[3].target = pattern;
         LOOP_LEVELS[3].naiveBlocks = pattern.length;
         renderTargetStack(pattern);
-        try { if (typeof updateLoopPreview === 'function') updateLoopPreview(); } catch(e) { /* ignore */ }
+        try { if (typeof updateLoopPreview === 'function') updateLoopPreview(); } catch(e) { }
       };
       row.appendChild(c1); row.appendChild(c2); row.appendChild(times); row.appendChild(apply);
       ctrl.appendChild(row);
@@ -255,9 +217,7 @@ function loopRun() {
   const lvl = LOOP_LEVELS[currentLoopLevel];
   if (!loopWorkspace) { showFeedback('error', 'No workspace loaded.'); return; }
   const output = evaluateWorkspaceSequence(loopWorkspace);
-  // `evaluateWorkspaceSequence` already returns bottom→top order for our stack logic.
-  // Keep `stack` as bottom→top so it matches `LOOP_LEVELS[].target` convention.
-  const stack = output.slice();
+  const stack = output.slice().reverse();
   renderMyStack(stack, lvl.target);
 
   // update block count color
@@ -272,17 +232,14 @@ function loopRun() {
     return;
   }
   const correct = stack.length === lvl.target.length && stack.every((c,i)=>c===lvl.target[i]);
-  console.log('LOOP_DEBUG', {level: currentLoopLevel, output, stack, target: lvl.target, correct});
   if (correct) {
     showFeedback('success', '✅ Perfect match! Nice loop.');
     loopCompleted.add(currentLoopLevel);
-    if (typeof updateProgress === 'function') updateProgress();
-    setTimeout(() => showCelebration(currentLoopLevel, lvl), 700);
-  } else if (stack.length !== lvl.target.length) {
-    showFeedback('error', `Not matching the target. Your output has ${stack.length} bricks but the target needs ${lvl.target.length}.`);
+      try { completedLevels.add(currentLoopLevel); } catch (e) {}
+      if (typeof updateProgress === 'function') updateProgress();
+      setTimeout(() => showCelebration(currentLoopLevel, lvl), 700);
   } else {
-    const wrongs = stack.filter((c,i)=>c !== lvl.target[i]).length;
-    showFeedback('error', `Not matching the target. ${wrongs} brick${wrongs !== 1 ? 's are' : ' is'} in the wrong position.`);
+    showFeedback('error', 'Not matching the target. Check your loop or bricks.');
   }
 }
 
@@ -292,3 +249,4 @@ function loopClear() {
   document.getElementById('block-count').textContent = '0';
   const existing = document.getElementById('free-controls'); if (existing) existing.remove();
 }
+
