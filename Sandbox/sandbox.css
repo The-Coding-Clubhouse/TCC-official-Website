@@ -188,6 +188,7 @@ header {
   flex-direction: column;
   border-left: 2px solid #0f3460;
   background: #16213e;
+  overflow-y: auto;
 }
 
 /* Level selector */
@@ -264,6 +265,19 @@ header {
   font-size: 13px;
   color: #ddd;
   line-height: 1.5;
+}
+
+/* Activity panels — shown/hidden based on active class */
+.activity-panel {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.activity-panel.active {
+  display: flex;
 }
 
 /* Target area */

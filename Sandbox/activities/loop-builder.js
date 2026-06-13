@@ -57,7 +57,7 @@ function switchActivity(name) {
   try { if (typeof fpWorkspace !== 'undefined' && fpWorkspace) fpWorkspace.dispose(); } catch(e){}
 
   // Hide all panels
-  const allPanels = ['panel-stack-loop', 'panel-if', 'panel-anim', 'panel-fp'];
+  const allPanels = ['panel-stack-loop', 'panel-ifthen', 'panel-anim', 'panel-fp'];
   allPanels.forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -82,7 +82,7 @@ function switchActivity(name) {
   } else if (name === 'if') {
     document.querySelector('.mission').textContent = '🚦 If-Then Builder — Logic Rules';
     if (typeof loadIfLevel === 'function') loadIfLevel(0);
-    const panel = document.getElementById('panel-if');
+    const panel = document.getElementById('panel-ifthen');
     if (panel) {
       panel.style.display = 'block';
     }
@@ -393,6 +393,7 @@ function loadActivityLevel(idx) {
 
 /* ── Advance to next level (used by all activities) ── */
 function nextLevel() {
+  document.getElementById('celebration').classList.remove('show');
   const levels = currentActivity === 'stack' ? LEVELS : currentActivity === 'loop' ? LOOP_LEVELS : currentActivity === 'if' ? IF_LEVELS : currentActivity === 'anim' ? ANIM_LEVELS : [];
   if (!levels || !levels.length) return;
   const nextIdx = currentLevel + 1;

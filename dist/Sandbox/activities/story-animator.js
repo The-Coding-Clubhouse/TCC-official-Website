@@ -34,6 +34,11 @@ function loadAnimLevel(idx) {
   seClearLog('Press Run then click a button to animate!');
 
   seRegisterActionBlocks('anim_');
+  
+  // ┌─ CRITICAL: Clear blocklyDiv before injecting new workspace ─┐
+  const blocklyDiv = document.getElementById('blocklyDiv');
+  if (blocklyDiv) blocklyDiv.innerHTML = '';
+  
   // Dispose other activities' workspaces to avoid multiple workspaces sharing #blocklyDiv
   try { if (animWorkspace) { animWorkspace.dispose(); animWorkspace = null; } } catch(e){}
   try { if (typeof workspace !== 'undefined' && workspace) { workspace.dispose(); workspace = null; } } catch(e){}
