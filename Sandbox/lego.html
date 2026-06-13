@@ -2633,11 +2633,218 @@ return module$build$src$blocks$blocks;
 </script>
 
 <script src="sandbox.js"></script>
+<script>
+  // Compatibility: older test harnesses call Blockly.Xml.textToDom
+  // Newer Blockly exposes xml helpers at Blockly.utils.xml.textToDom
+  (function(){
+    try {
+      if (typeof Blockly !== 'undefined' && Blockly.Xml && typeof Blockly.Xml.textToDom !== 'function') {
+        if (Blockly.utils && Blockly.utils.xml && typeof Blockly.utils.xml.textToDom === 'function') {
+          Blockly.Xml.textToDom = Blockly.utils.xml.textToDom;
+        } else if (typeof DOMParser !== 'undefined') {
+          Blockly.Xml.textToDom = function(text) { return new DOMParser().parseFromString(text, 'text/xml'); };
+        }
+      }
+    } catch (e) { /* silence */ }
+  })();
+</script>
+<script>
+  // Backwards-compat wrapper so tests that reference `completedLevels` still work.
+  (function(){
+    try {
+      window.completedLevels = {
+        has(idx) {
+          if (typeof currentActivity === 'undefined') return false;
+          if (currentActivity === 'stack') return (typeof stackCompleted !== 'undefined') && stackCompleted.has(idx);
+          if (currentActivity === 'loop')  return (typeof loopCompleted !== 'undefined') && loopCompleted.has(idx);
+          if (currentActivity === 'ifthen') return (typeof ifCompleted !== 'undefined') && ifCompleted.has(idx);
+          if (currentActivity === 'anim')  return (typeof animCompleted !== 'undefined') && animCompleted.has(idx);
+          return false;
+        },
+        add(idx) {
+          if (currentActivity === 'stack' && typeof stackCompleted !== 'undefined') stackCompleted.add(idx);
+          if (currentActivity === 'loop' && typeof loopCompleted !== 'undefined') loopCompleted.add(idx);
+          if (currentActivity === 'ifthen' && typeof ifCompleted !== 'undefined') ifCompleted.add(idx);
+          if (currentActivity === 'anim' && typeof animCompleted !== 'undefined') animCompleted.add(idx);
+        },
+        delete(idx) {
+          if (typeof stackCompleted !== 'undefined') stackCompleted.delete(idx);
+          if (typeof loopCompleted !== 'undefined') loopCompleted.delete(idx);
+          if (typeof ifCompleted !== 'undefined') ifCompleted.delete(idx);
+          if (typeof animCompleted !== 'undefined') animCompleted.delete(idx);
+        },
+        clear() {
+          if (typeof stackCompleted !== 'undefined') stackCompleted.clear();
+          if (typeof loopCompleted !== 'undefined') loopCompleted.clear();
+          if (typeof ifCompleted !== 'undefined') ifCompleted.clear();
+          if (typeof animCompleted !== 'undefined') animCompleted.clear();
+        },
+        get size() {
+          if (currentActivity === 'stack') return stackCompleted ? stackCompleted.size : 0;
+          if (currentActivity === 'loop')  return loopCompleted ? loopCompleted.size : 0;
+          if (currentActivity === 'ifthen') return ifCompleted ? ifCompleted.size : 0;
+          if (currentActivity === 'anim')  return animCompleted ? animCompleted.size : 0;
+          return 0;
+        }
+      };
+    } catch (e) { /* ignore */ }
+  })();
+</script>
 <script src="activities/stage-engine.js"></script>
 <script src="activities/lego.js"></script>
 <script src="activities/loop-builder.js"></script>
 <script src="activities/if-then.js"></script>
 <script src="activities/story-animator.js"></script>
 <script src="activities/final-project.js"></script>
+<script>
+/* ============================================================
+   Activity switcher — wires all 5 activities into one page
+   ============================================================ */
+
+let currentActivity = 'stack';
+
+const ACTIVITY_META = {
+  stack:  { mission: '🧱 Stack Builder — What Is Coding?',    levels: 4, panelId: 'panel-stack',  blockCountId: 'block-count'      },
+  loop:   { mission: '🔁 Loop Builder — Make repetition visible', levels: 4, panelId: 'panel-stack',  blockCountId: 'block-count'      },
+  ifthen: { mission: '🚦 If-Then Builder — Conditions & Rules', levels: 4, panelId: 'panel-ifthen', blockCountId: 'if-block-count'   },
+  anim:   { mission: '🎬 Story Animator — Events & Actions',   levels: 4, panelId: 'panel-anim',   blockCountId: 'anim-block-count' },
+  fp:     { mission: '🌟 Free Sandbox — Build Anything!',      levels: 1, panelId: 'panel-fp',     blockCountId: 'fp-block-count'   },
+};
+
+function switchActivity(name) {
+  currentActivity = name;
+  const meta = ACTIVITY_META[name];
+
+  // Update activity buttons
+  document.querySelectorAll('.act-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('act-btn-' + name).classList.add('active');
+
+  // Update mission label
+  document.getElementById('mission-label').textContent = meta.mission;
+
+  // Show/hide right panels
+  document.querySelectorAll('.activity-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(meta.panelId).classList.add('active');
+
+  // Level nav: hide for free sandbox, update count otherwise
+  const levelNav = document.getElementById('level-nav');
+  if (name === 'fp') {
+    levelNav.style.display = 'none';
+  } else {
+    levelNav.style.display = 'flex';
+  }
+
+  // remove any Level-4 free-controls UI left behind from Loop activity
+  try { const fc = document.getElementById('free-controls'); if (fc) fc.remove(); } catch(e){}
+
+  // Keep the shared Blockly workspace in the left panel for all activities.
+  const blocklyDiv = document.getElementById('blocklyDiv');
+  const blocklyPanel = document.getElementById('blockly-panel');
+
+  if (blocklyDiv.parentElement !== blocklyPanel) {
+    blocklyPanel.appendChild(blocklyDiv);
+  }
+  blocklyPanel.style.display = 'flex';
+  document.querySelector('.main').style.flexDirection = '';
+
+  // Progress label
+  document.getElementById('progress-label-text').textContent =
+    name === 'fp' ? 'Free sandbox' : 'Levels complete';
+  document.getElementById('progress-text').textContent =
+    name === 'fp' ? '🌟 All unlocked' : '0 / 4';
+
+  // Load the activity
+  if (name === 'stack')  { loadLevel(0); }
+  else if (name === 'loop')   { loadLoopLevel(0); }
+  else if (name === 'ifthen') { loadIfLevel(0); }
+  else if (name === 'anim')   { loadAnimLevel(0); }
+  else if (name === 'fp')     { initFP(); }
+}
+
+/* Route level buttons to whichever activity is active */
+function levelBtn(idx) {
+  if      (currentActivity === 'stack')  loadLevel(idx);
+  else if (currentActivity === 'loop')   loadLoopLevel(idx);
+  else if (currentActivity === 'ifthen') loadIfLevel(idx);
+  else if (currentActivity === 'anim')   loadAnimLevel(idx);
+}
+
+/* Route Run / Clear buttons */
+function actRun() {
+  if      (currentActivity === 'stack')  runCode();
+  else if (currentActivity === 'loop')   loopRun();
+  else if (currentActivity === 'ifthen') runIfCode();
+  else if (currentActivity === 'anim')   runAnimCode();
+  else if (currentActivity === 'fp')     runFP();
+}
+
+function actClear() {
+  if      (currentActivity === 'stack')  clearStack();
+  else if (currentActivity === 'loop')   loopClear();
+  else if (currentActivity === 'ifthen') clearIfCode();
+  else if (currentActivity === 'anim')   clearAnimCode();
+  else if (currentActivity === 'fp')     clearFP();
+}
+
+/* nextLevel used by the existing celebration overlay */
+function nextLevel() {
+  document.getElementById('celebration').classList.remove('show');
+  if      (currentActivity === 'stack')  { if (currentLevel  < 3) loadLevel(currentLevel + 1); }
+  else if (currentActivity === 'loop')   { if (currentLoopLevel < 3) loadLoopLevel(currentLoopLevel + 1); }
+  else if (currentActivity === 'ifthen') { if (currentLevel  < 3) loadIfLevel(currentLevel + 1); }
+  else if (currentActivity === 'anim')   { if (currentLevel  < 3) loadAnimLevel(currentLevel + 1); }
+}
+
+function getCompletedCount() {
+  if (currentActivity === 'stack') return typeof stackCompleted !== 'undefined' ? stackCompleted.size : 0;
+  if (currentActivity === 'loop') return typeof loopCompleted !== 'undefined' ? loopCompleted.size : 0;
+  if (currentActivity === 'ifthen') return typeof ifCompleted !== 'undefined' ? ifCompleted.size : 0;
+  if (currentActivity === 'anim') return typeof animCompleted !== 'undefined' ? animCompleted.size : 0;
+  return 0;
+}
+
+/* updateProgress — override sandbox.js version to work for all activities */
+function updateProgress() {
+  const fill = document.getElementById('progress-fill');
+  const text = document.getElementById('progress-text');
+  if (!fill || !text) return;
+  if (currentActivity === 'fp') {
+    fill.style.width = '100%';
+    text.textContent = '🌟 All unlocked';
+    return;
+  }
+  const completed = getCompletedCount();
+  const pct = Math.round((completed / 4) * 100);
+  fill.style.width = pct + '%';
+  text.textContent = completed + ' / 4';
+}
+
+/* showCelebration — override to use the existing #celebration overlay */
+function showCelebration(levelIdx, lvl) {
+  document.getElementById('celeb-emoji').textContent = '🎉';
+  document.getElementById('celeb-title').textContent = 'Level Complete!';
+  document.getElementById('celeb-msg').textContent   = lvl.successMsg || '';
+  document.getElementById('celebration').classList.add('show');
+}
+
+/* Day 5 init (called once when switching to fp) */
+let fpInitDone = false;
+function initFP() {
+  if (!fpInitDone) {
+    fpInitDone = true;
+    registerFPBlocks();
+    // workspace injected by final-project.js DOMContentLoaded — need to re-inject here
+    // because DOMContentLoaded has already fired; call the setup directly
+    setupFPWorkspace();
+  } else {
+    clearFP();
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Start on Day 1 stack
+  switchActivity('stack');
+});
+</script>
 </body>
 </html>
