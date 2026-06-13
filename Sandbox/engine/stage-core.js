@@ -1,33 +1,23 @@
-// stage-core.js
+/* stage-core.js */
 
 export const StageCore = {
   state: {
-    currentScene: null,
-    characters: [],
-    variables: {},
-    isRunning: false
+    charX: 50,
+    costume: 0,
+    bgIndex: 0
   },
+
+  isRunning: false,
+  eventMap: {},
 
   reset() {
-    this.state.currentScene = null;
-    this.state.characters = [];
-    this.state.variables = {};
-    this.state.isRunning = false;
-  },
+    this.state = {
+      charX: 50,
+      costume: 0,
+      bgIndex: 0
+    };
 
-  setScene(scene) {
-    this.state.currentScene = scene;
-  },
-
-  addCharacter(char) {
-    this.state.characters.push(char);
-  },
-
-  setVariable(key, value) {
-    this.state.variables[key] = value;
-  },
-
-  getVariable(key) {
-    return this.state.variables[key];
+    this.isRunning = false;
+    this.eventMap = {};
   }
 };
