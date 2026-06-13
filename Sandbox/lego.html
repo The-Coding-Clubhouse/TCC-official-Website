@@ -14,11 +14,11 @@
     <img src="../assets/icons/Frame 2.png" alt="The Coding Clubhouse Logo" class="w-32 h-auto">
   </a>
   <div class="day-tag">Virtual Lego</div>
-  <div class="mission">🧱 Stack Builder — What Is Coding?</div>
+  <div id="mission-label" class="mission">🧱 Stack Builder — What Is Coding?</div>
   <div class="activity-switch" style="margin-left:12px; display:flex; gap:6px; flex-wrap:wrap;">
     <button id="activity-stack" class="level-btn active" onclick="switchActivity('stack')">Day 1: Stack</button>
     <button id="activity-loop"  class="level-btn" onclick="switchActivity('loop')">Day 2: Loops</button>
-    <button id="activity-if"   class="level-btn" onclick="switchActivity('if')">Day 3: If-Then</button>
+    <button id="activity-if"   class="level-btn" onclick="switchActivity('ifthen')">Day 3: If-Then</button>
     <button id="activity-anim" class="level-btn" onclick="switchActivity('anim')">Day 4: Animator</button>
     <button id="activity-fp"   class="level-btn" onclick="switchActivity('fp')">Day 5: Free</button>
   </div>
@@ -35,7 +35,7 @@
   <div id="right-panel">
 
     <!-- Level buttons (shared) -->
-    <div class="levels">
+    <div id="level-nav" class="levels">
       <span>Level:</span>
       <button class="level-btn active" onclick="loadActivityLevel(0)">1</button>
       <button class="level-btn" onclick="loadActivityLevel(1)">2</button>
@@ -50,7 +50,7 @@
     </div>
 
     <!-- ── DAY 1 & 2 panel: stack display ── -->
-    <div id="panel-stack-loop">
+    <div id="panel-stack-loop" class="activity-panel active">
       <div class="target-area">
         <div class="area-label">🧱 Target stack &nbsp;→&nbsp; Your stack</div>
         <div class="stacks-row">
@@ -67,7 +67,7 @@
     </div>
 
     <!-- ── DAY 3 panel: traffic light ── -->
-    <div id="panel-if" style="display:none; padding:12px;">
+    <div id="panel-ifthen" class="activity-panel" style="padding:12px;">
       <div id="traffic-light" style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:12px;"></div>
       <div style="background:#0f3460; border-radius:10px; padding:12px; text-align:center;">
         <div id="reaction-emoji" style="font-size:40px;">❓</div>
@@ -80,7 +80,7 @@
     </div>
 
     <!-- ── DAY 4 panel: story animator stage ── -->
-    <div id="panel-anim" style="display:none; padding:12px;">
+    <div id="panel-anim" class="activity-panel" style="padding:12px;">
       <div id="stage-screen" class="stage-screen bg-city" style="position:relative; height:120px; border-radius:10px; overflow:hidden; margin-bottom:8px;">
         <div id="stage-character" style="position:absolute; bottom:8px; left:50%; font-size:32px; transition:all 0.3s;">🧒</div>
         <div id="stage-speech" class="hidden" style="position:absolute; top:6px; left:50%; transform:translateX(-50%); background:#fff; color:#333; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:700; white-space:nowrap;"></div>
@@ -92,7 +92,7 @@
     </div>
 
     <!-- ── DAY 5 panel: free project stage ── -->
-    <div id="panel-fp" style="display:none; padding:12px;">
+    <div id="panel-fp" class="activity-panel" style="padding:12px;">
       <div id="fp-stage-screen" class="stage-screen bg-city" style="position:relative; height:120px; border-radius:10px; overflow:hidden; margin-bottom:8px;">
         <div id="fp-stage-character" style="position:absolute; bottom:8px; left:50%; font-size:32px; transition:all 0.3s;">🧒</div>
         <div id="fp-stage-speech" class="hidden" style="position:absolute; top:6px; left:50%; transform:translateX(-50%); background:#fff; color:#333; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:700; white-space:nowrap;"></div>
@@ -120,7 +120,7 @@
 
     <div class="progress-wrap">
       <div class="progress-label">
-        <span>Levels complete</span>
+        <span id="progress-label-text">Levels complete</span>
         <span id="progress-text">0 / 4</span>
       </div>
       <div class="progress-bar">
@@ -2703,28 +2703,52 @@ return module$build$src$blocks$blocks;
 
 let currentActivity = 'stack';
 
+const ACTIVITY_ALIAS = { ifthen: 'if' };
 const ACTIVITY_META = {
-  stack:  { mission: '🧱 Stack Builder — What Is Coding?',    levels: 4, panelId: 'panel-stack',  blockCountId: 'block-count'      },
-  loop:   { mission: '🔁 Loop Builder — Make repetition visible', levels: 4, panelId: 'panel-stack',  blockCountId: 'block-count'      },
-  ifthen: { mission: '🚦 If-Then Builder — Conditions & Rules', levels: 4, panelId: 'panel-ifthen', blockCountId: 'if-block-count'   },
-  anim:   { mission: '🎬 Story Animator — Events & Actions',   levels: 4, panelId: 'panel-anim',   blockCountId: 'anim-block-count' },
-  fp:     { mission: '🌟 Free Sandbox — Build Anything!',      levels: 1, panelId: 'panel-fp',     blockCountId: 'fp-block-count'   },
+  stack:  { mission: '🧱 Stack Builder — What Is Coding?',    levels: 4, panelId: 'panel-stack-loop',  blockCountId: 'block-count'      },
+  loop:   { mission: '🔁 Loop Builder — Make repetition visible', levels: 4, panelId: 'panel-stack-loop',  blockCountId: 'block-count'      },
+  if:     { mission: '🚦 If-Then Builder — Conditions & Rules', levels: 4, panelId: 'panel-ifthen',   blockCountId: 'if-block-count'   },
+  anim:   { mission: '🎬 Story Animator — Events & Actions',   levels: 4, panelId: 'panel-anim',     blockCountId: 'anim-block-count' },
+  fp:     { mission: '🌟 Free Sandbox — Build Anything!',      levels: 1, panelId: 'panel-fp',       blockCountId: 'fp-block-count'   },
 };
 
+function normalizeActivity(name) {
+  return ACTIVITY_ALIAS[name] || name;
+}
+
 function switchActivity(name) {
+  name = normalizeActivity(name);
   currentActivity = name;
   const meta = ACTIVITY_META[name];
 
+  // Hide overlay when switching activities
+  const overlay = document.getElementById('celebration');
+  if (overlay) {
+    overlay.classList.remove('show');
+  }
+
   // Update activity buttons
-  document.querySelectorAll('.act-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('act-btn-' + name).classList.add('active');
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+  const button = document.getElementById('activity-' + name);
+  if (button) button.classList.add('active');
 
   // Update mission label
-  document.getElementById('mission-label').textContent = meta.mission;
+  if (meta) {
+    document.getElementById('mission-label').textContent = meta.mission;
+  }
 
   // Show/hide right panels
-  document.querySelectorAll('.activity-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById(meta.panelId).classList.add('active');
+  document.querySelectorAll('.activity-panel').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  if (meta) {
+    const panel = document.getElementById(meta.panelId);
+    if (panel) {
+      panel.classList.add('active');
+      panel.style.display = 'flex';
+    }
+  }
 
   // Level nav: hide for free sandbox, update count otherwise
   const levelNav = document.getElementById('level-nav');
@@ -2756,7 +2780,7 @@ function switchActivity(name) {
   // Load the activity
   if (name === 'stack')  { loadLevel(0); }
   else if (name === 'loop')   { loadLoopLevel(0); }
-  else if (name === 'ifthen') { loadIfLevel(0); }
+  else if (name === 'if' || name === 'ifthen') { loadIfLevel(0); }
   else if (name === 'anim')   { loadAnimLevel(0); }
   else if (name === 'fp')     { initFP(); }
 }
@@ -2765,7 +2789,7 @@ function switchActivity(name) {
 function levelBtn(idx) {
   if      (currentActivity === 'stack')  loadLevel(idx);
   else if (currentActivity === 'loop')   loadLoopLevel(idx);
-  else if (currentActivity === 'ifthen') loadIfLevel(idx);
+  else if (currentActivity === 'if' || currentActivity === 'ifthen') loadIfLevel(idx);
   else if (currentActivity === 'anim')   loadAnimLevel(idx);
 }
 
@@ -2773,7 +2797,7 @@ function levelBtn(idx) {
 function actRun() {
   if      (currentActivity === 'stack')  runCode();
   else if (currentActivity === 'loop')   loopRun();
-  else if (currentActivity === 'ifthen') runIfCode();
+  else if (currentActivity === 'if' || currentActivity === 'ifthen') runIfCode();
   else if (currentActivity === 'anim')   runAnimCode();
   else if (currentActivity === 'fp')     runFP();
 }
@@ -2781,7 +2805,7 @@ function actRun() {
 function actClear() {
   if      (currentActivity === 'stack')  clearStack();
   else if (currentActivity === 'loop')   loopClear();
-  else if (currentActivity === 'ifthen') clearIfCode();
+  else if (currentActivity === 'if' || currentActivity === 'ifthen') clearIfCode();
   else if (currentActivity === 'anim')   clearAnimCode();
   else if (currentActivity === 'fp')     clearFP();
 }
@@ -2791,14 +2815,14 @@ function nextLevel() {
   document.getElementById('celebration').classList.remove('show');
   if      (currentActivity === 'stack')  { if (currentLevel  < 3) loadLevel(currentLevel + 1); }
   else if (currentActivity === 'loop')   { if (currentLoopLevel < 3) loadLoopLevel(currentLoopLevel + 1); }
-  else if (currentActivity === 'ifthen') { if (currentLevel  < 3) loadIfLevel(currentLevel + 1); }
+  else if (currentActivity === 'if' || currentActivity === 'ifthen') { if (currentLevel  < 3) loadIfLevel(currentLevel + 1); }
   else if (currentActivity === 'anim')   { if (currentLevel  < 3) loadAnimLevel(currentLevel + 1); }
 }
 
 function getCompletedCount() {
   if (currentActivity === 'stack') return typeof stackCompleted !== 'undefined' ? stackCompleted.size : 0;
   if (currentActivity === 'loop') return typeof loopCompleted !== 'undefined' ? loopCompleted.size : 0;
-  if (currentActivity === 'ifthen') return typeof ifCompleted !== 'undefined' ? ifCompleted.size : 0;
+  if (currentActivity === 'if' || currentActivity === 'ifthen') return typeof ifCompleted !== 'undefined' ? ifCompleted.size : 0;
   if (currentActivity === 'anim') return typeof animCompleted !== 'undefined' ? animCompleted.size : 0;
   return 0;
 }

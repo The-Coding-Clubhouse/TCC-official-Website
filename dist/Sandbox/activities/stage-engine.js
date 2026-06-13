@@ -198,7 +198,8 @@ function seHandleKeyPress(key) {
 function seCompileEvents(ws, blockPrefix) {
   const map = {};
   const prefix = blockPrefix || '';
-  ws.getTopBlocks(true).forEach(block => {
+  // Scan all blocks so event blocks are found even if they're chained or not top-level.
+  ws.getAllBlocks(false).forEach(block => {
     if (block.type !== prefix + 'when_key') return;
     const key     = block.getFieldValue('KEY');
     const actions = [];
@@ -341,6 +342,9 @@ function seRegisterActionBlocks(prefix) {
           .appendField(new Blockly.FieldDropdown(SE_ALL_KEYS.map(k => [k, k])), 'KEY')
           .appendField('pressed →');
         this.setColour(180);
+        // Allow chaining of event blocks to support older XML layouts used by tests
+        this.setPreviousStatement(true, 'Event');
+        this.setNextStatement(true, 'Event');
         this.setTooltip('Runs these actions when the key is pressed');
       }
     };

@@ -150,19 +150,26 @@ function updateProgress() {
 
 /* ---------- celebration ---------- */
 function showCelebration(levelIdx, lvl) {
-  const overlay = document.getElementById('celebration-overlay');
-  const msg     = document.getElementById('celebration-msg');
-  const sub     = document.getElementById('celebration-sub');
-  if (!overlay) return;
-  msg.textContent = lvl.successMsg;
-  sub.textContent = levelIdx < LEVELS.length - 1
+  const overlay = document.getElementById('celebration');
+  const title = document.getElementById('celeb-title');
+  const message = document.getElementById('celeb-msg');
+  const emoji = document.getElementById('celeb-emoji');
+  if (!overlay || !title || !message || !emoji) return;
+
+  emoji.textContent = '🎉';
+  title.textContent = lvl.successMsg;
+  const totalLevels = currentActivity === 'stack' ? LEVELS.length :
+    currentActivity === 'loop' ? LOOP_LEVELS.length :
+    currentActivity === 'if' ? IF_LEVELS.length :
+    currentActivity === 'anim' ? ANIM_LEVELS.length : 0;
+
+  message.textContent = levelIdx < totalLevels - 1
     ? `Level ${levelIdx + 1} complete! Ready for level ${levelIdx + 2}?`
     : '🎉 You completed all levels!';
-  overlay.style.display = 'flex';
+  overlay.classList.add('show');
 }
 
 function closeCelebration() {
-  const overlay = document.getElementById('celebration-overlay');
-  if (overlay) overlay.style.display = 'none';
-  if (currentLevel < LEVELS.length - 1) loadLevel(currentLevel + 1);
+  const overlay = document.getElementById('celebration');
+  if (overlay) overlay.classList.remove('show');
 }

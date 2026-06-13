@@ -181,6 +181,7 @@ function clearStack() {
 
 /* Advance to next level in Day 1 (Stack Builder) */
 function nextLevel() {
+  document.getElementById('celebration').classList.remove('show');
   if (currentLevel < LEVELS.length - 1) {
     loadLevel(currentLevel + 1);
   } else {
