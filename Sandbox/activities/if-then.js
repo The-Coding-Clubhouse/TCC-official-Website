@@ -43,8 +43,6 @@ function buildIfToolbox(colors) {
 }
 
 function registerIfBlocks(colors) {
-  if (Blockly.Blocks['if_light_rule']) return;
-
   Blockly.Blocks['if_light_rule'] = {
     init() {
       this.appendDummyInput()
