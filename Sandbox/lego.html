@@ -97,10 +97,22 @@
 
     <!-- ── DAY 5 panel: free project stage ── -->
     <div id="panel-fp" class="activity-panel" style="padding:12px;">
-      <div id="fp-stage-screen" class="stage-screen bg-city" style="position:relative; height:120px; border-radius:10px; overflow:hidden; margin-bottom:8px;">
-        <div id="fp-stage-character" style="position:absolute; bottom:8px; left:50%; font-size:32px; transition:all 0.3s;">🧒</div>
-        <div id="fp-stage-speech" class="hidden" style="position:absolute; top:6px; left:50%; transform:translateX(-50%); background:#fff; color:#333; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:700; white-space:nowrap;"></div>
-        <div id="fp-bg-label" style="position:absolute; bottom:4px; right:6px; font-size:10px; color:rgba(255,255,255,0.5);">City</div>
+      <div id="fp-stage-screen" class="stage-screen bg-city" style="position:relative; height:140px; border-radius:10px; overflow:hidden; margin-bottom:8px;">
+        <!-- 4 sprite slots — all hidden until a "create sprite" block spawns them -->
+        <div id="fp-sprite-0" class="fp-sprite" style="position:absolute; bottom:8px; left:20%; font-size:28px; transition:all 0.3s; display:none;"></div>
+        <div id="fp-sprite-1" class="fp-sprite" style="position:absolute; bottom:8px; left:40%; font-size:28px; transition:all 0.3s; display:none;"></div>
+        <div id="fp-sprite-2" class="fp-sprite" style="position:absolute; bottom:8px; left:60%; font-size:28px; transition:all 0.3s; display:none;"></div>
+        <div id="fp-sprite-3" class="fp-sprite" style="position:absolute; bottom:8px; left:80%; font-size:28px; transition:all 0.3s; display:none;"></div>
+        <!-- Shared speech bubble — repositioned to the speaking sprite -->
+        <div id="fp-stage-speech" class="hidden" style="position:absolute; top:6px; left:50%; transform:translateX(-50%); background:#fff; color:#333; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:700; white-space:nowrap; max-width:90%; overflow:hidden; text-overflow:ellipsis;"></div>
+        <!-- Sprite name labels -->
+        <div id="fp-sprite-labels" style="position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:space-around; padding:0 4px;">
+          <span class="fp-sprite-label" data-idx="0" style="display:none;">S1</span>
+          <span class="fp-sprite-label" data-idx="1" style="display:none;">S2</span>
+          <span class="fp-sprite-label" data-idx="2" style="display:none;">S3</span>
+          <span class="fp-sprite-label" data-idx="3" style="display:none;">S4</span>
+        </div>
+        <div id="fp-bg-label" style="position:absolute; top:4px; right:6px; font-size:10px; color:rgba(255,255,255,0.5);">City</div>
       </div>
       <div id="fp-stage-buttons" style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:8px;"></div>
       <div style="background:#0f3460; border-radius:8px; padding:8px; font-size:11px; max-height:60px; overflow-y:auto;" id="fp-event-log"><p>Press Run then use the buttons!</p></div>

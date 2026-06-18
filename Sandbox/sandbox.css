@@ -651,11 +651,73 @@ header {
   position: relative;
   overflow: hidden;
 }
-.bg-city   { background: linear-gradient(180deg, #1a1a2e 60%, #2d3561 100%); }
-.bg-forest { background: linear-gradient(180deg, #1a4731 60%, #2d6a4f 100%); }
-.bg-space  { background: linear-gradient(180deg, #000010 60%, #0f0f3d 100%); }
-.bg-beach  { background: linear-gradient(180deg, #87ceeb 50%, #f4d35e 100%); }
-.bg-home   { background: linear-gradient(180deg, #e8d5b7 60%, #c9b99a 100%); }
+
+/* ── Realistic photo backgrounds ──────────────────────────────
+   Each class uses a high-quality Unsplash photo as the base,
+   with a subtle gradient overlay so the stage characters and
+   speech bubbles remain readable on top.
+   Photo IDs are stable "source" URLs — no API key needed.
+   ──────────────────────────────────────────────────────────── */
+
+/* City — downtown skyline at dusk */
+.bg-city {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(10, 10, 30, 0.25) 0%,
+      rgba(10, 10, 30, 0.55) 100%
+    ),
+    url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+/* Forest — sunlight breaking through dense green trees */
+.bg-forest {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 30, 10, 0.15) 0%,
+      rgba(0, 30, 10, 0.50) 100%
+    ),
+    url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+/* Space — deep galaxy with stars and nebula */
+.bg-space {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 10, 0.20) 0%,
+      rgba(0, 0, 20, 0.55) 100%
+    ),
+    url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+/* Beach — tropical sandy shore with turquoise water */
+.bg-beach {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(10, 60, 90, 0.10) 0%,
+      rgba(200, 160, 80, 0.30) 100%
+    ),
+    url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+/* Home — cosy living room interior */
+.bg-home {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(30, 20, 10, 0.15) 0%,
+      rgba(30, 20, 10, 0.45) 100%
+    ),
+    url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
 
 .key-btn {
   background: #0f3460;
