@@ -766,3 +766,31 @@ header {
   border-radius: 2px;
   display: inline-block;
 }
+
+/* ============================================================
+   BLOCKLY TEXT INPUT  (FieldTextInput editing widget)
+   Blockly injects a real <input> into the SVG when the user
+   clicks a text field. Without overrides it gets browser
+   defaults — often white-on-white or black-on-black inside
+   a dark theme. These rules make it always readable.
+   ============================================================ */
+.blocklyHtmlInput {
+  background: #0f3460 !important;
+  color: #ffffff !important;
+  border: 2px solid #7ec8e3 !important;
+  border-radius: 6px !important;
+  padding: 2px 2px !important;
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(126,200,227,0.25) !important;
+  caret-color: #7ec8e3 !important;
+}
+
+.blocklyHtmlInput::selection {
+  background: #7ec8e3 !important;
+  color: #0f3460 !important;
+  padding: 20px 22px !important;
+  overflow: visible;
+}

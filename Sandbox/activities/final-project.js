@@ -226,7 +226,7 @@ function registerFPBlocks() {
     };
   }
 
-  // Say block — with sprite selector
+  // Say block — with sprite selector and free-text input
   if (!Blockly.Blocks['fp_say']) {
     Blockly.Blocks['fp_say'] = {
       init() {
@@ -234,10 +234,11 @@ function registerFPBlocks() {
           .appendField('💬')
           .appendField(new Blockly.FieldDropdown(FP_SPRITE_OPTIONS), 'SPRITE')
           .appendField('says')
-          .appendField(new Blockly.FieldDropdown(SE_MESSAGES.map(m => [m, m])), 'MSG');
+          .appendField(new Blockly.FieldTextInput('Hello!'), 'MSG');
         this.setPreviousStatement(true, 'Action');
         this.setNextStatement(true, 'Action');
         this.setColour(300);
+        this.setTooltip('Type anything you want the sprite to say!');
       }
     };
   }
@@ -275,7 +276,7 @@ function buildFPToolbox() {
     </category>
     <category name="🎭 Story" colour="#e94560">
       <block type="fp_new_sprite"><field name="SPRITE">0</field><field name="COSTUME">0</field></block>
-      <block type="fp_say"><field name="SPRITE">0</field></block>
+      <block type="fp_say"><field name="SPRITE">0</field><field name="MSG">Hello!</field></block>
       <block type="fp_costume"><field name="SPRITE">0</field></block>
       <block type="fp_background"></block>
     </category>
@@ -329,7 +330,7 @@ function ensureFPSprites() {
     const speech = document.createElement('div');
     speech.id        = 'fp-stage-speech';
     speech.className = 'hidden';
-    speech.style.cssText = 'position:absolute;top:6px;left:50%;transform:translateX(-50%);background:#fff;color:#333;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis;';
+    speech.style.cssText = 'position:absolute;left:50%;transform:translateX(-50%);background:rgba(15,20,40,0.92);color:#ffffff;border:2px solid rgba(255,255,255,0.55);border-radius:10px;padding:5px 13px;font-size:13px;font-weight:800;white-space:nowrap;max-width:88%;overflow:hidden;text-overflow:ellipsis;box-shadow:0 3px 12px rgba(0,0,0,0.6);pointer-events:none;z-index:10;';
     screen.appendChild(speech);
   }
 }
@@ -520,7 +521,7 @@ function fpExecute(action, key) {
 
         speech.textContent = action.value;
         speech.classList.remove('hidden');
-        setTimeout(() => speech.classList.add('hidden'), 2500);
+        setTimeout(() => speech.classList.add('hidden'), 5000);
       }
       fpLog(`${key}: sprite ${si+1} says "${action.value}"`);
       return Promise.resolve();

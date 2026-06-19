@@ -183,7 +183,7 @@ function seExecuteAction(action, key) {
       if (speech) {
         speech.textContent = action.value;
         speech.classList.remove('hidden');
-        setTimeout(() => speech.classList.add('hidden'), 2500);
+        setTimeout(() => speech.classList.add('hidden'), 5000);
       }
       seLog(`💬 ${key}: says "${action.value}"`);
       return Promise.resolve();
@@ -422,10 +422,11 @@ function seRegisterActionBlocks(prefix) {
       init() {
         this.appendDummyInput()
           .appendField('💬 say')
-          .appendField(new Blockly.FieldDropdown(SE_MESSAGES.map(m => [m, m])), 'MSG');
+          .appendField(new Blockly.FieldTextInput('Hello!'), 'MSG');
         this.setPreviousStatement(true, 'Action');
         this.setNextStatement(true, 'Action');
         this.setColour(300);
+        this.setTooltip('Click the text and type anything you want the sprite to say!');
       }
     };
   }
