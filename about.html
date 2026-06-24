@@ -1,7 +1,256 @@
- <div id="app">
-    <!-- Only your unique page content goes here -->
+<div id="app">
+<!-- Only your unique page content goes here -->
 
-   
+<!------------------------
+ Hero Section
+ ------------------------>
+<main class="page-wrapper">
+
+<!-- ================= HERO ================= -->
+<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+
+  <!-- Background Image -->
+  <div class="absolute inset-0">
+    <img
+      src="assets/images/about.JPG"
+      alt="Hero background"
+      class="w-full h-full object-cover object-center"
+    />
+  </div>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-brand-purple/55"></div>
+
+  <!-- HERO CONTENT -->
+  <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+
+    <span class="hero-btn mb-6 inline-block">
+      joy = coding + kid;
+    </span>
+
+    <h1 class="hero-header-text text-white">
+      We're The Coding Clubhouse.
+    </h1>
+
+    <p class="hero-p mt-4">
+      Making computer science
+      <span class="font-bold text-brand-yellow">accessible</span>,
+      <span class="font-bold text-brand-aqua">inclusive</span>, and
+      <span class="font-bold text-brand-coral">joyful</span>
+      for every child.
+    </p>
+
+    <span class="hero-btn bg-brand-purple text-white mt-6 inline-block">
+      while (learning) smile();
+    </span>
 
   </div>
-    <script src="/javaScript/main.js"></script>
+
+</section>
+
+<!-- ================= WHO WE ARE ================= -->
+<section class="py-16 bg-gradient">
+
+  <div class="text-center mb-10">
+    <span class="btn-icon-wrapper">
+      <img src="assets/icons/Tag.png" alt="">
+    </span>
+
+    <h1 class="hero-header-text text-brand-blue mt-4">
+      Who We Are
+    </h1>
+
+    <span class="tiny-codes-snippet block mt-4">
+      function thecodeclubhouse &lpar;
+    </span>
+  </div>
+
+  <div class="container mx-auto px-6">
+
+    <div class="flex flex-col lg:flex-row gap-10 items-start">
+
+      <!-- TEXT -->
+      <div class="lg:w-1/2">
+
+        <div class="border-l-4 border-brand-purple pl-4 space-y-4">
+
+          <p>
+            At <span class="font-bold text-brand-purple">Coding Clubhouse</span>, we're reimagining access to tech education.
+            We're a non-profit committed to giving every child — especially those in underrepresented communities — the opportunity
+            to explore, learn and create with technology.
+          </p>
+
+          <p>
+            We do this through <strong>Dream Beyond Limits</strong>, teacher training,
+            summer coding classes and our <strong>Code Equity curriculum</strong>.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+      <div class="w-full lg:w-1/2">
+
+        <div class="blog-news-card bg-brand-white w-full">
+
+          <div class="blog-news-card-header">
+            <img src="assets/icons/web tab.png" alt="">
+            <h3 class="blog-news-card-title">who-we-are.js</h3>
+          </div>
+
+          <!-- FIXED WRAPPER (IMPORTANT CHANGE) -->
+          <div class="blog-news-card-workspace-wrap">
+            <img
+              src="assets/images/about-workspace.png"
+              alt=""
+              class="blog-news-card-workspace"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+
+            <span class="card-box p-4 bg-brand-violet50 text-center">
+              Dream Beyond Limits
+            </span>
+
+            <span class="card-box p-4 bg-brand-coral50 text-center">
+              Teacher Training
+            </span>
+
+            <span class="card-box p-4 bg-brand-aqua50 text-center">
+              Summer Coding Classes
+            </span>
+
+            <span class="card-box p-4 bg-brand-blue50 text-center">
+              Code Equity Curriculum
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= MISSION & VISION ================= -->
+<section class="py-16 bg-hero-gradient">
+
+  <div class="container mx-auto px-6 text-center">
+
+    <h1 class="hero-header-text text-brand-purple mb-4">
+      Our Mission & Vision
+    </h1>
+
+    <p class="max-w-3xl mx-auto mb-10">
+      We're teachers, technologists, creators, and dreamers — united by a shared belief that every child deserves a chance
+      to thrive through technology.
+    </p>
+
+    <div class="flex flex-col md:flex-row gap-8 justify-center">
+
+      <!-- MISSION -->
+      <div class="blog-news-card bg-brand-white w-full md:w-[420px]">
+
+        <div class="flex items-center gap-2">
+          <img src="assets/icons/mission-icon.png" alt="">
+          <h3 class="info-card-title">Our Mission</h3>
+        </div>
+
+        <!-- FIXED WRAPPER -->
+        <div class="blog-news-card-workspace-wrap">
+          <img
+            src="assets/images/Mission-workspace.png"
+            alt=""
+            class="blog-news-card-workspace"
+          />
+        </div>
+
+        <p class="info-card-body mt-4">
+          To make computer science education accessible to all children by equipping them and their communities with skills,
+          confidence, and creativity to thrive in a digital world.
+        </p>
+
+      </div>
+
+      <!-- VISION -->
+      <div class="blog-news-card bg-brand-white w-full md:w-[420px]">
+
+        <div class="flex items-center gap-2">
+          <img src="assets/icons/Vision-tag.png" alt="">
+          <h3 class="info-card-title">Our Vision</h3>
+        </div>
+
+        <!-- FIXED WRAPPER -->
+        <div class="blog-news-card-workspace-wrap">
+          <img
+            src="assets/images/Vision-workspace.png"
+            alt=""
+            class="blog-news-card-workspace"
+          />
+        </div>
+
+        <p class="info-card-body mt-4">
+          A future where every child, regardless of background, can learn, innovate, and lead through technology.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= TEAM ================= -->
+<section class="py-16 bg-hero-gradient">
+
+  <div class="container mx-auto px-6 text-center">
+
+    <h1 class="hero-header-text text-brand-purple mb-4">
+      Meet The Team
+    </h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+
+      <article class="profile-card">
+        <div class="profile-card__avatar-wrap">
+          <img src="assets/images/Olushola.jpg" class="profile-card__avatar" alt="picture of Olushola">
+        </div>
+        <h3 class="profile-card__name">Olushola Ogunkelu</h3>
+        <p class="profile-card__role">Founder</p>
+        <p class="profile-card__bio">Software Engineer, Educator, Open Source Enthusiast.</p>
+      </article>
+
+      <article class="profile-card">
+        <div class="profile-card__avatar-wrap">
+          <img src="assets/img/profile-card-1.jpg" class="profile-card__avatar" alt="">
+        </div>
+        <h3 class="profile-card__name">Arya Uprale</h3>
+        <p class="profile-card__role">Developer Lead</p>
+        <p class="profile-card__bio">Developer, Passionate about creating innovative solutions.</p>
+      </article>
+
+      <article class="profile-card">
+        <div class="profile-card__avatar-wrap">
+          <img src="assets/images/joanna.JPG" class="profile-card__avatar" alt="">
+        </div>
+        <h3 class="profile-card__name">Joanna Iwok</h3>
+        <p class="profile-card__role">Curriculum Lead</p>
+        <p class="profile-card__bio">Learning Experience Developer, Making Learning easier and fun</p>
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+  </div>
+  <script  src="javaScript/main.js" type="module"></script>

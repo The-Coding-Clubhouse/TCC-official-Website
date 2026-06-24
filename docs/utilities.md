@@ -1,947 +1,867 @@
 # Utilities Documentation
 
-This file documents all **custom Tailwind utility classes** created for this project.
+This document explains all reusable custom classes created in `input.css`.
 
-It serves as:
+It exists to help developers:
 
-- A **single source of truth** for custom styles
-- A **reference guide** for current and future developers
-- A way to **avoid duplicate or conflicting utilities**
-- A requirement for code review and merging
-
-If a utility is not documented here, **it should not be used in the project**.
+- Understand the design system quickly
+- Reuse existing utilities instead of duplicating styles
+- Maintain consistent UI patterns across the website
+- Onboard faster into the project structure
 
 ---
 
-## How Developers Should Use This File
+# Project Structure
 
-Whenever you create a **custom utility class** in `input.css` (for example: buttons, cards, spacing helpers, colors, etc.), you must:
+All custom classes are located inside:
 
-1. Add the class in `input.css` inside `@layer components`
-2. Add a row for the class in the **Utilities Table** below
-3. Fill out the **Utility Documentation Template** for that class
-4. Commit both the CSS change **and** the documentation together
+```css
+@layer components
+```
 
-This file is **manually maintained**.
-Nothing here auto-updates.
+in:
 
----
-
-## Utilities Table (Quick Reference)
-
-Use this table to quickly search and understand available utilities.
-
-| Class Name                     | Category       | Description                                         | File      |
-| ------------------------------ | -------------- | --------------------------------------------------- | --------- |
-| `.btn-primary`                 | Button         | Primary action button                               | input.css |
-| `.btn-secondary`               | Button         | Secondary action button                             | input.css |
-| `.profile-card`                | Card           | Main profile card container                         | input.css |
-| `.profile-card__avatar-wrap`   | Card           | Avatar wrapper with shadow                          | input.css |
-| `.profile-card__avatar`        | Card           | Avatar image styling                                | input.css |
-| `.profile-card__name`          | Card           | Profile name text                                   | input.css |
-| `.profile-card__role`          | Card           | Profile role/title text                             | input.css |
-| `.profile-card__bio`           | Card           | Profile biography text                              | input.css |
-| `.contact-form`                | Form           | Main contact form container                         | input.css |
-| `.contact-title`               | Form           | Contact form heading/title                          | input.css |
-| `.contact-form__field`         | Form Field     | Input wrapper (label-inside + focus ring)           | input.css |
-| `.contact-form__innerLabel`    | Form Field     | Label text inside input/textarea wrapper            | input.css |
-| `.contact-form__input`         | Form Field     | The actual `<input>` element (borderless)           | input.css |
-| `.contact-form__textareaField` | Form Field     | Textarea wrapper (label-inside + focus ring)        | input.css |
-| `.contact-form__textarea`      | Form Field     | The actual `<textarea>` element (borderless, grows) | input.css |
-| `.contact-form__counter`       | Form Field     | Bottom-right character counter text                 | input.css |
-| `.girls-card`                  | Card           | Hero Stack                                          | input.css |
-| `.navbar-container`            | Navbar         | Navbar background                                   | input.css |
-| `.hamburger-icon`              | Navbar         | Hamburger                                           | input.css |
-| `.navbar-links-wrapper`        | Navbar         | Contains Link to Webpages                           | input.css |
-| `.navbar-links`                | Navbar         | Link to Webpages                                    | input.css |
-| `.footer-container`            | Footer         | Footer Container                                    | input.css |
-| `.footer-webpages-link`        | Footer         | LInk to webpages                                    | input.css |
-| `.media-icons`                 | Footer         | Social media icons                                  | input.css |
-| `.newsletter`                  | Footer         | Newsletter subscription                             | input.css |
-| `.newsletter-h3`               | Footer         | Newsletter subscription                             | input.css |
-| `.impact-card-background`      | Impact section | Impact section Background                           | input.css |
-| `.impact-card-h1`              | Impact section | Impact text                                         | input.css |
-| `.tiny-codes-snippet`          | Impact section | tiny codes in bg                                    | input.css |
-| `.hero-background`             | Hero section   | Hero section bg                                     | input.css |
-| `.hero-h1`                     | Hero section   | Large Heading text                                  | input.css |
-| `.hero-p`                      | Hero section   | Hero intro texts                                    | input.css |
-| `.btn-icon-wrapper`            | Button         | Wrap icons and buttons                              | input.css |
-| `.btn-container`               | Buttons        | Buttton container                                   | input.css || `.btn-secondary` | Button | Secondary action button | input.css |
-| `.btn-secondary:hover` | Button | Secondary Button Hover State | input.css |
-| `.btn-secondary:focus` | Button | Secondary Button Focus State | input.css |
-| `.btn-outline` | Button | Outline Action Button | input.css |
-| `.btn-outline-img` | Image | Outline Button Icons | input.css |
-| `.btn-outline:hover` | Button | Outline Button Hover State | input.css |
-| `.info-card` | Card | Info Card | input.css |
-| `.info-card-title` | Text | Info Card Title Text | input.css |
-| `.info-card-body` | Text | Info Card Body Text | input.css |
-| `.info-card-workspace` | Image | Info Card Workspace Image | input.css |
-| `.info-card-frame` | Icon | Info Card Icon | input.css |
-| `.blog-news-card` | Card | Blog News Card | input.css |
-| `.blog-news-card-workspace` | Image | Blog News Card Workspace Image | input.css |
-| `.blog-news-card-header` | Container | Blog News Card Header Container | input.css |
-| `.blog-news-card-frame` | Icon | Blog News Card Icon | input.css |
-| `.blog-news-card-title` | Text | Blog News Card Title Text | input.css |
-| `.circular-images` | Image | Circular Image | input.css |
-| `.small-section-header` | Container | Small Section Header Container | input.css |
-| `.small-section-header-title` | Text | Small Section Header Title Text | input.css |
-| `.small-section-header-subtitle` | Text | Small Section Body Text | input.css |
-| `.btn-secondary` | Button | Secondary action button | input.css |
-| `.btn-secondary:hover` | Button | Secondary Button Hover State | input.css |
-| `.btn-secondary:focus` | Button | Secondary Button Focus State | input.css |
-| `.btn-outline` | Button | Outline Action Button | input.css |
-| `.btn-outline-img` | Image | Outline Button Icons | input.css |
-| `.btn-outline:hover` | Button | Outline Button Hover State | input.css |
-| `.info-card` | Card | Info Card | input.css |
-| `.info-card-title` | Text | Info Card Title Text | input.css |
-| `.info-card-body` | Text | Info Card Body Text | input.css |
-| `.info-card-workspace` | Image | Info Card Workspace Image | input.css |
-| `.info-card-frame` | Icon | Info Card Icon | input.css |
-| `.blog-news-card` | Card | Blog News Card | input.css |
-| `.blog-news-card-workspace` | Image | Blog News Card Workspace Image | input.css |
-| `.blog-news-card-header` | Container | Blog News Card Header Container | input.css |
-| `.blog-news-card-frame` | Icon | Blog News Card Icon | input.css |
-| `.blog-news-card-title` | Text | Blog News Card Title Text | input.css |
-| `.circular-images` | Image | Circular Image | input.css |
-| `.small-section-header` | Container | Small Section Header Container | input.css |
-| `.small-section-header-title` | Text | Small Section Header Title Text | input.css |
-| `.small-section-header-subtitle` | Text | Small Section Body Text | input.css |
-
-
-> ⚠️ Every new utility **must** be added to this table.
+```bash
+src/input.css
+```
 
 ---
 
-## Why the Table Does NOT Auto-Fill
+# Rules for Contributors
 
-- Markdown files cannot update themselves
-- GitHub does not auto-generate documentation from CSS
-- This is intentional — it forces developers to **think about usage**
+Whenever you create a new reusable class:
 
-The table is a **summary**, not the full explanation.
-
-The detailed explanation lives in the template below.
+1. Add it to `input.css`
+2. Document it here
+3. Explain:
+   - what it does
+   - when to use it
+   - when NOT to use it
+4. Add an HTML example
 
 ---
 
-## 📝 Utility Documentation Template (Copy & Paste)
+# Utility Categories
 
-> Use this template whenever you create a new custom utility or component.
-> paste it **below this section**, then fill it in, before opening a PR.
+This project utilities are grouped into:
 
-`````md
-### Utility Name
+- Hero
+- Buttons
+- Cards
+- Layout
+- Typography
+- Navbar
+- Footer
+- Forms
+- Gallery
+- Impact Section
+- Programs Dropdown
 
-- **Class name:** `.`
-- **Layer:** components | base | utilities
-- **Category:** Button | Card | Layout | Form | Typography | Other
-- **Used for:**
-- **Do NOT use for:**
-- ## **Tailwind utilities applied:**
-  -
-- **HTML example:**
+---
 
-````html
-<!-- Example usage -->
+# Quick Reference Table
 
---- ## 🧱 Buttons ### Utility Name - **Class name:** `.btn-primary` - **Layer:**
-components - **Category:** Button - **Used for:** Primary call-to-action buttons
-- **Do NOT use for:** Secondary or destructive actions - **Tailwind utilities
-applied:** - `px-4` - `py-2` - `rounded-lg` - `text-brand-white` - **HTML
-example:** ```html
-<button class="btn-primary">Donate</button>
+| Class | Purpose |
+|---|---|
+| `.hero-section` | Main hero layout wrapper |
+| `.hero-header-text` | Large hero heading |
+| `.hero-p` | Hero paragraph text |
+| `.hero-bg` | Hero background styling |
+| `.hero-btn` | Small hero floating buttons |
+| `.btn` | Base button system |
+| `.btn-primary` | Main CTA button |
+| `.btn-secondary` | Secondary button |
+| `.btn-outline` | Outline button |
+| `.btn-icon` | Button icon sizing |
+| `.info-section` | General section wrapper |
+| `.info-card` | Generic information card |
+| `.info-card-title` | Info card heading |
+| `.info-card-body` | Info card body text |
+| `.blog-news-card` | Blog/program style card |
+| `.blog-news-card-workspace` | Card image styling |
+| `.blog-news-card-header` | Card top row |
+| `.blog-news-card-title` | Small card title |
+| `.profile-card` | Team member card |
+| `.profile-card__avatar-wrap` | Avatar outer ring |
+| `.profile-card__avatar` | Avatar image |
+| `.contact-form` | Contact form wrapper |
+| `.contact-title` | Contact section title |
+| `.girls-card` | Gallery card |
+| `.girls-pic` | Gallery image |
+| `.girls-top` | Gallery top row |
+| `.navbar-container` | Main navbar wrapper |
+| `.navbar-links-wrapper` | Desktop nav links |
+| `.navbar-links` | Individual nav link |
+| `.hamburger-icon` | Mobile menu trigger |
+| `.mobile-menu` | Mobile menu container |
+| `.mobile-menu__link` | Mobile nav links |
+| `.programs` | Programs dropdown wrapper |
+| `.programs-wrapper` | Programs flex container |
+| `.programs-toggle` | Dropdown toggle button |
+| `.programs-chevron` | Dropdown chevron animation |
+| `.mobile-only` | Mobile dropdown menu |
+| `.desktop-only` | Desktop dropdown menu |
+| `.footer-container` | Footer wrapper |
+| `.footer-webpages-link` | Footer links |
+| `.media-icons` | Social icons container |
+| `.newsletter` | Newsletter layout |
+| `.impact-card-background` | Impact section card |
+| `.impact-card-h1` | Impact section title |
+| `.tiny-codes-snippet` | Decorative code text |
+| `.intro-cards-container` | Intro section layout |
+| `.card-box-wrapper` | Grid wrapper for feature boxes |
+| `.card-box` | Feature tag boxes |
+| `.card-bg` | Purple card background |
+| `.bg-circle` | Decorative background circles |
 
---- ## 🎴 Profile Card ### Profile Card Container - **Class name:**
-`.profile-card` - **Layer:** components - **Category:** Card - **Used for:**
-Main container for user profile cards displaying user information in a card
-layout - **Do NOT use for:** Profile pages, profile modals, or non-card-based
-profile displays - **Tailwind utilities applied:** - `w-full` - `max-w-sm` -
-`flex` - `flex-col` - `items-center` - `rounded-xl` - `border-2` - `pt-6`,
-`pb-6`, `px-5` - `text-center` - `shadow-sm` - `bg-brand-blue50` -
-`order-brand-gray` - **HTML example:** ```html
-<div class="profile-card">
-  <div class="profile-card__avatar-wrap">
-    <img src="avatar.jpg" alt="User" class="profile-card__avatar" />
-  </div>
-  <h2 class="profile-card__name">John Doe</h2>
-  <p class="profile-card__role">Software Developer</p>
-  <p class="profile-card__bio">Passionate about building great software.</p>
+---
+
+# HERO UTILITIES
+
+---
+
+## `.hero-section`
+
+### Purpose
+Main hero section wrapper.
+
+### Used For
+- Landing page hero sections
+- Full-width introductory sections
+
+### Tailwind Applied
+
+```css
+relative text-white flex flex-col items-center justify-center text-center
+```
+
+### Example
+
+```html
+<section class="hero-section">
+  Content
+</section>
+```
+
+---
+
+## `.hero-header-text`
+
+### Purpose
+Large hero headings.
+
+### Tailwind Applied
+
+```css
+text-5xl font-heading mb-6 my-6 md:my-8 lg:my-10
+```
+
+### Example
+
+```html
+<h1 class="hero-header-text">
+  We're The Coding Clubhouse.
+</h1>
+```
+
+---
+
+## `.hero-p`
+
+### Purpose
+Hero supporting paragraph text.
+
+### Tailwind Applied
+
+```css
+font-sans p-5 text-3xl
+```
+
+### Example
+
+```html
+<p class="hero-p">
+  Making computer science accessible.
+</p>
+```
+
+---
+
+## `.hero-bg`
+
+### Purpose
+Hero background image behavior.
+
+### Notes
+Uses:
+- cover image
+- blend mode
+- centered text
+- darkened background
+
+### Tailwind Applied
+
+```css
+w-full h-[900px] font-sans text-brand-white text-center
+bg-no-repeat bg-cover bg-brand-purple bg-blend-darken
+```
+
+---
+
+## `.hero-btn`
+
+### Purpose
+Small decorative code-style buttons inside hero.
+
+### Tailwind Applied
+
+```css
+text-sm font-light bg-brand-white/10 text-brand-aqua
+p-1.5 px-4 py-2 rounded-md
+```
+
+---
+
+# BUTTON SYSTEM
+
+---
+
+## `.btn`
+
+### Purpose
+Base reusable button system.
+
+### Notes
+Never use directly alone.
+Always combine with:
+- `.btn-primary`
+- `.btn-secondary`
+- `.btn-outline`
+
+### Tailwind Applied
+
+```css
+inline-flex items-center justify-center gap-2 rounded-lg
+font-medium transition-all duration-200
+```
+
+---
+
+## `.btn-primary`
+
+### Purpose
+Primary call-to-action button.
+
+### Used For
+- Donate
+- Join
+- Register
+- Main actions
+
+### Tailwind Applied
+
+```css
+btn bg-brand-yellow text-brand-charcoal px-6 py-3 text-sm
+```
+
+### Example
+
+```html
+<button class="btn-primary">
+  Donate Now
+</button>
+```
+
+---
+
+## `.btn-secondary`
+
+### Purpose
+Secondary action button.
+
+### Tailwind Applied
+
+```css
+btn bg-brand-white text-brand-charcoal border-2
+border-brand-purple px-6 py-3 text-sm
+```
+
+---
+
+## `.btn-outline`
+
+### Purpose
+Transparent outline button.
+
+### Tailwind Applied
+
+```css
+btn bg-transparent text-brand-charcoal border-2
+border-brand-purple px-4 py-2 text-sm
+```
+
+---
+
+## `.btn-icon`
+
+### Purpose
+Standard icon size inside buttons.
+
+### Tailwind Applied
+
+```css
+w-4 h-4 shrink-0
+```
+
+---
+
+# CARD UTILITIES
+
+---
+
+## `.info-section`
+
+### Purpose
+Generic section wrapper.
+
+### Tailwind Applied
+
+```css
+text-center p-10
+```
+
+---
+
+## `.info-card`
+
+### Purpose
+Reusable information cards.
+
+### Tailwind Applied
+
+```css
+px-6 py-4 shadow-md rounded-xl
+max-w-[350px] min-h-[550px] w-full
+```
+
+---
+
+## `.info-card-title`
+
+### Purpose
+Card title styling.
+
+### Tailwind Applied
+
+```css
+text-xl font-semibold mt-2 mb-4 text-left text-brand-charcoal
+```
+
+---
+
+## `.info-card-body`
+
+### Purpose
+Body text inside info cards.
+
+### Tailwind Applied
+
+```css
+text-base text-left text-brand-charcoal
+```
+
+---
+
+## `.blog-news-card`
+
+### Purpose
+Main reusable content card.
+
+### Used For
+- Programs
+- About cards
+- Mission/Vision cards
+
+### Tailwind Applied
+
+```css
+px-4 py-5 shadow-2xl rounded-xl max-w-[500px] w-full
+```
+
+---
+
+## `.blog-news-card-workspace`
+
+### Purpose
+Image inside blog/program cards.
+
+### Important
+This class controls sizing only.
+
+To prevent image cropping issues, wrap image inside:
+
+```html
+<div class="blog-news-card-workspace-wrap">
+  <img class="blog-news-card-workspace">
 </div>
-````
-`````
+```
 
+### Tailwind Applied
+
+```css
+w-full h-48 mt-4 mb-1 rounded-md
 ```
 
 ---
 
-### Profile Card Avatar Wrapper
+## `.blog-news-card-header`
 
-- **Class name:** `.profile-card__avatar-wrap`
-- **Layer:** components
-- **Category:** Card
-- **Used for:** Container that wraps the profile avatar image with padding and shadow
-- **Do NOT use for:** Other image containers or non-avatar elements
-- **Tailwind utilities applied:**
-  - `w-32`
-  - `h-32`
-  - `rounded-full`
-  - `bg-brand-white`
-  - `p-1.5`
-  - `shadow-md`
+### Purpose
+Top row inside cards.
 
----
+### Tailwind Applied
 
-### Profile Card Avatar Image
-
-- **Class name:** `.profile-card__avatar`
-- **Layer:** components
-- **Category:** Card
-- **Used for:** Avatar image element inside the wrapper
-- **Do NOT use for:** Other images or background images
-- **Tailwind utilities applied:**
-  - `w-full`
-  - `h-full`
-  - `rounded-full`
-  - `object-cover`
-  - `block`
-
----
-
-### Profile Card Name
-
-- **Class name:** `.profile-card__name`
-- **Layer:** components
-- **Category:** Card
-- **Used for:** User's name heading in the profile card
-- **Do NOT use for:** Other text or headings
-- **Tailwind utilities applied:**
-  - `mt-6`
-  - `text-2xl`
-  - `font-semibold`
-  - `text-brand-charcoal`
-
----
-
-### Profile Card Role
-
-- **Class name:** `.profile-card__role`
-- **Layer:** components
-- **Category:** Card
-- **Used for:** User's role or title text in the profile card
-- **Do NOT use for:** General text content or descriptions
-- **Tailwind utilities applied:**
-  - `mt-2`
-  - `text-[18px]`
-  - `font-extrabold`
-  - `leading-relaxed`
-  - `text-brand-blue`
-
----
-
-### Profile Card Bio
-
-- **Class name:** `.profile-card__bio`
-- **Layer:** components
-- **Category:** Card
-- **Used for:** User's biography or description text
-- **Do NOT use for:** Names, roles, or other profile data
-- **Tailwind utilities applied:**
-  - `mt-6`
-  - `text-lg`
-  - `font-medium`
-  - `leading-relaxed`
-  - `text-brand-purple`
-  - `text-justify`
-
----
-
-### Contact Form Container
-
-- **Class name:** `.contact-form`
-- **Layer:** components
-- **Category:** Form
-- **Used for:** Main wrapper container for the entire contact form (card-like layout)
-- **Do NOT use for:** Generic page sections that are not a form container
-- **Tailwind utilities applied:**
-  - `w-full`
-  - `max-w-3xl`
-  - `bg-brand-white`
-  - `rounded-lg`
-  - `shadow-md`
-  - `p-8`
-
----
-
-### Contact Form Title
-
-- **Class name:** `.contact-title`
-- **Layer:** components
-- **Category:** Form
-- **Used for:** Heading/title text at the top of the contact form
-- **Do NOT use for:** Page titles or headings outside the contact form
-- **Tailwind utilities applied:**
-  - `text-2xl`
-  - `font-bold`
-  - `mb-4`
-  - `text-gray-800`
-
----
-
-### Contact Form Field Wrapper
-
-- **Class name:** `.contact-form__field`
-- **Layer:** components
-- **Category:** Form Field
-- **Used for:** Wrapper that creates the bordered “box” around label + input (label is inside the box)
-- **Do NOT use for:** Standalone inputs without label-inside layout, selects, or buttons
-- **Tailwind utilities applied:**
-  - `h-[3.9375rem]`
-  - `min-h-[2.75rem]`
-  - `rounded`
-  - `border-2`
-  - `border-brand-neutralWhite`
-  - `bg-white`
-  - `flex`
-  - `flex-col`
-  - `justify-center`
-  - `gap-2`
-  - `focus-within:outline-none`
-  - `focus-within:ring-2`
-  - `focus-within:ring-brand-purple`
-
----
-
-### Contact Form Inner Label
-
-- **Class name:** `.contact-form__label`
-- **Layer:** components
-- **Category:** Form Field
-- **Used for:** Label text placed inside the field wrapper (above the input/textarea value line)
-- **Do NOT use for:** Labels that live outside the input wrapper or inline helper text
-- **Tailwind utilities applied:**
-  - `font-medium`
-  - `leading-none`
-  - `text-gray-800`
-
----
-
-### Contact Form Label Small
-
-- **Class name:** `.contact-form__label--sm`
-- **Layer:** components
-- **Category:** Form Field
-- **Used for:** Small label variant for standard input fields (e.g., Full Name, Email)
-- **Do NOT use for:** Section headings or large textarea labels
-- **Tailwind utilities applied:**
-  - `text-lg`
-
----
-
-### Contact Form Label Large
-
-- **Class name:** `.contact-form__label--lg`
-- **Layer:** components
-- **Category:** Form Field
-- **Used for:** Large label variant for textarea fields (e.g., Message label)
-- **Do NOT use for:** Small input labels or any non-label text
-- **Tailwind utilities applied:**
-  - `text-2xl`
-
----
-
-### Contact Form Input Element
-
-- **Class name:** `.contact-form__input`
-- **Layer:** components
-- **Category:** Form Field
-- **Used for:** Borderless `<input>` element that sits inside `.contact-form__field`
-- **Do NOT use for:** Inputs that need their own border, padding, or outer wrapper
-- **Tailwind utilities applied:**
-  - `w-full`
-  - `border-0`
-  - `bg-transparent`
-  - `p-0`
-  - `text-lg`
-  - `text-gray-700`
-  - `placeholder:text-gray-400`
-  - `focus:outline-none`
-  - `focus:ring-0`
-
----
-
-### Contact Form Textarea Wrapper
-
-- **Class name:** `.contact-form__textareaField`
-- **Layer:** components
-- **Category:** Form Field
-- **Used for:** Wrapper that creates the bordered textarea box with label-inside layout
-- **Do NOT use for:** Single-line inputs or short fields
-- **Tailwind utilities applied:**
-  - `w-full`
-  - `rounded`
-  - `border-2`
-  - `border-brand-neutralWhite`
-  - `bg-white`
-  - `px-3`
-  - `pt-3`
-  - `pb-4`
-  - `min-h-[11rem]`
-  - `flex`
-  - `flex-col`
-  - `gap-2`
-  - `focus-within:outline-none`
-  - `focus-within:ring-2`
-  - `focus-within:ring-brand-purple`
-
----
-
-### Contact Form Textarea Element
-
-- **Class name:** `.contact-form__textarea`
-- **Layer:** components
-- **Category:** Form Field
-- **Used for:** Borderless `<textarea>` element that grows inside `.contact-form__textareaField`
-- **Do NOT use for:** Resizable textareas or standalone textareas without the wrapper
-- **Tailwind utilities applied:**
-  - `w-full`
-  - `flex-1`
-  - `resize-none`
-  - `border-0`
-  - `bg-transparent`
-  - `p-0`
-  - `text-lg`
-  - `text-gray-700`
-  - `placeholder:text-gray-300`
-  - `focus:outline-none`
-  - `focus:ring-0`
-
----
-
-### Contact Form Counter
-
-- **Class name:** `.contact-form__counter`
-- **Layer:** components
-- **Category:** Form Field
-- **Used for:** Right-aligned character counter text displayed under the textarea (e.g., `0/1000`)
-- **Do NOT use for:** Validation errors or helper messages
-- **Tailwind utilities applied:**
-  - `mt-2`
-  - `text-right`
-  - `text-lg`
-  - `text-gray-700`
-
----
-
-### Hero Stack Card
-
-- **Class name:** `.girls_card`
-- **Layer:** components
-- **Category:** Card
-- **Used for:** hero stack card components
-- **Do NOT use for:** Inputs that need their own border, padding, or differently formatted cards
-- **Tailwind utilities applied:**
-  - `w-[604px]`
-  - `h-[388px]`
-  - `bg-[#A273FF]`
-  - `rounded-2xl`
-  - `overflow-hidden`
-  - `w-[83px]`
-  - `h-[33px]`
-  - `pt-[2px]`
-  - `pb-[1px]`
-  - `h-[315px]`
-  - `object-cover`
-  - `h-[73px]`
-  - `flex`
-  - `items-start`
-  - `gap-[10px]`
-  - `px-3`
-  - `pt-[20px]`
-
----
-
-### Nav Bar Container
-
-- **Class name:** `.navbar-container`
-- **Layer:** components
-- **Category:** Navbar
-- **Used for:** Background and container for the navigation
-- **Do NOT use for:** Names, roles, or other profile data
-- **Tailwind utilities applied:**
-  - `bg-brand-purple`
-  - `text-brand-white`
-  - `text-center`
-  - `w-full`
-  - `h-auto`
-  - `flex justify-between sticky`
-  - `top-0`
-  - `m-0`
-  - `p-2`
-
----
-
-### Hamburger Icon
-
-- **Class name:** `.hamburger-icon`
-- **Layer:** components
-- **Category:** Navbar
-- **Used for:** Toggling the navbar on mobile devices
-- **Do NOT use for:** Large and medium screens
-- **Tailwind utilities applied:**
-  - `mt-2`
-  - `cursor-pointer`
-  - `md:hiddden`
-
----
-
-### Container of Link to Webpages
-
-- **Class name:** `.navbar-links-wrapper`
-- **Layer:** components
-- **Category:** Navbar
-- **Used for:** containing the links to webpages
-- **Do NOT use for:** Linking Footer webpages
-- **Tailwind utilities applied:**
-  - `tx-sm`
-  - `text-center`
-  - `font-sans`
-  - `font-bold`
-  - `hidden`
-  - `md:flex`
-  - `gap-2`
-  - `lg:gap-4`
-  - `px-2`
-  - `py-2`
-  - `mr-4`
-
----
-
-### Link to webpages
-
-- **Class name:** `.navbar-links`
-- **Layer:** components
-- **Category:** Navbar
-- **Used for:** Connecting to various webpages
-- **Do NOT use for:** other texts
-- **Tailwind utilities applied:**
-  - `p-2`
-  - `hover:text-brand-yellow`
-
----
-
-### Footer Container
-
-- **Class name:** `.footer-container`
-- **Layer:** components
-- **Category:** footer
-- **Used for:** footer container
-- **Do NOT use for:** navbar container
-- **Tailwind utilities applied:**
-  - `bg-brand-white`
-  - `text-brand-charcoal`
-  - `w-full`
-  - `px-10`
-  - `pt-20`
-
----
-
-### Footer webpages link
-
-- **Class name:** `.footer-webpages-links`
-- **Layer:** components
-- **Category:** footer
-- **Used for:** Webpages linking
-- **Do NOT use for:** directing to the social media pages
-- **Tailwind utilities applied:**
-  - `grid`
-  - `grid-col-span-3`
-  - `md:flex`
-  - `text-sm`
-  - `font-bold`
-  - `py-5`
-
----
-
-### Social Media Icons
-
-- **Class name:** `.media-icons`
-- **Layer:** components
-- **Category:** footer
-- **Used for:** directing to the social media pages
-- **Do NOT use for:** Webpages linking
-- **Tailwind utilities applied:**
-  - `flex`
-  - `md:col-span-3`
-  - `md:py-5`
-
----
-
-### Newsletter subscription
-
-- **Class name:** `.newsletter`
-- **Layer:** components
-- **Category:** footer
-- **Used for:** subscribing to newsletter
-- **Do NOT use for:** Styling buttons
-- **Tailwind utilities applied:**
-  - `block`
-  - `md:flex`
-  - `lg:ml-5`
-  - `my-10`
-  - `justify-center`
-
----
-
-### Newsletter subscription
-
-- **Class name:** `.newsletter-text`
-- **Layer:** components
-- **Category:** footer
-- **Used for:** subscribing to newsletter
-- **Do NOT use for:** Styling other texts
-- **Tailwind utilities applied:**
-  - `block`
-  - `text-gray-400`
-  - `text-sm`
-  - `pb-10`
-  - `pt-5`
-  - `text-center`
-
----
-
-### Expand our impact
-
-- **Class name:** `.impact-card-background`
-- **Layer:** components
-- **Category:** impact section
-- **Used for:** Expand our Impact card
-- **Do NOT use for:** Styling other cards
-- **Tailwind utilities applied:**
-  - `w-auto`
-  - `h-auto`
-  - `text-center`
-  - `bg-brand-purple`
-  - `bg-cover`
-  - `bg-blend-soft-light`
-  - `hover:bg-blend-darken`
-  - `shadow-xl`
-  - `rounded-lg`
-  - `mx-8`
-  - `md:mx-20`
-  - `mt-20`
-  - `p-8`
-
----
-
-### Expand our impact
-
-- **Class name:** `.impact-card-h1`
-- **Layer:** components
-- **Category:** Expand our Impact card
-- **Used for:** styling the heading text
-- **Do NOT use for:** Styling other texts
-- **Tailwind utilities applied:**
-  - `font-bold`
-  - `text-xl`
-  - `md:text-3xl`
-  - `text-brand-charcoal`
-  - `font-heading`
-  - `tracking-wide`
-
----
-
-### Background code snippet
-
-- **Class name:** `.tiny-code-snippet`
-- **Layer:** components
-- **Category:** tiny bakground code snippets
-- **Used for:** styling the code snippets
-- **Do NOT use for:** Styling other texts
-- **Tailwind utilities applied:**
-  - `text-right`
-  - `text-sm`
-  - `flex`
-  - `justify-end`
-  - `text-brand-blue`
-  - `mb-10`
-
----
-
-### Hero section
-
-- **Class name:** `.hero-background`
-- **Layer:** components
-- **Category:** hero section container
-- **Used for:** styling the hero background
-- **Do NOT use for:** Styling other texts
-- **Tailwind utilities applied:**
-  - `w-full`
-  - `h-auto`
-  - `font-sans`
-  - `text-brand-white`
-  - `text-center`
-  - `bg-no-repeat`
-  - `bg-cover`
-  - `bg-brand-purple`
-  - `bg-blend-darken`
-
----
-
-### Hero section
-
-- **Class name:** `.hero-h1`
-- **Layer:** components
-- **Category:** hero section
-- **Used for:** Large Heading text for hero and info sections
-- **Do NOT use for:** Styling smaller texts
-- **Tailwind utilities applied:**
-  - `font-heading`
-  - `text-4xl`
-  - `md:mt-16`
-
----
-
-### Hero section
-
-- **Class name:** `.hero-p`
-- **Layer:** components
-- **Category:** hero section
-- **Used for:** paragraph text for hero sections
-- **Do NOT use for:** Styling smaller texts
-- **Tailwind utilities applied:**
-  - `font-sans`
-  - `p-5`
-  - `text-2xl`
-
----
-
-### Button
-
-- **Class name:** `.btn-icon-wrapper`
-- **Layer:** components
-- **Category:** Buttons
-- **Used for:** Wraping buttons with icons
-- **Do NOT use for:** Buttons with no icons
-- **Tailwind utilities applied:**
-  - `flex`
-  - `gap-1`
-  - `justify-center`
-
----
-
-### Button
-
-- **Class name:** `.btn-container`
-- **Layer:** components
-- **Category:** Expand our Impact card
-- **Used for:** changing the buttons to grid display on mobile
-- **Do NOT use for:** Styling buttons
-- **Tailwind utilities applied:**
-  - `grid`
-  - `md:flex`
-  - `justify-center`
-  - `pb-4`
-  - `mt-5`
-  - `md:mt-8`
-  - `text-brand-charcoal`
-
----
+```css
+flex items-center gap-2
 ```
 
-  * `w-[604px]`
-  * `h-[388px]`
-  * `bg-[#A273FF]`
-  * `rounded-2xl`
-  * `overflow-hidden`
-  * `w-[83px]`
-  * `h-[33px]`
-  * `pt-[2px]`
-  * `pb-[1px]`
-  * `h-[315px]`
-  * `object-cover`
-  * `h-[73px]`
-  * `flex`
-  * `items-start`
-  * `gap-[10px]`
-  * `px-3`
-  * `pt-[20px]`
-
-
-### Secondary Button
-- **Class name:** `.btn-secondary`
-- **Layer:** components 
-- **Category:** Button 
-- **Used for:** Secondary Action Buttons
-- **Do NOT use for:** Any, other than the Secondary Action Buttons.
-- **Tailwind utilities applied:**
-    * `text-brand-charcoal` 
-    * `px-10`
-    * `py-6`
-    * `rounded-md`
-    * `text-sm` 
-    * `border-2`
-    * `border-brand-gray`
-
-
-### Outline Button
-- **Class name:** `.btn-outline`
-- **Layer:** components
-- **Category:** Button
-- **Used for:** Outline Buttons
-- **Do NOT use for:** Any, other than the Outline Buttons
-- **Tailwind utilities applied:**
-  - `text-brand-white `    
-  - `px-4`
-  - `py-2`
-  - `rounded-lg`
-  - `text-sm`
-  - `border-2 `
-  - `border-brand-purple`
 ---
 
-### Info Card
-- **Class name:** `.info-card`
-- **Layer:** components
-- **Category:** Card
-- **Used for:** Info Card Components
-- **Do NOT use for:** Any, other than the Info Card
-- **Tailwind utilities applied:**
-  - `px-6 `        
-  - `py-4`
-  - `shadow-md`
-  - `rounded-xl`
-  - `max-w-[350px]`
-  - `min-h-[550px] `
-  - ` w-full `
----
-### Info Card Workspace Image
-- **Class name:** `.info-card-workspace`
-- **Layer:** components
-- **Category:** Image
-- **Used for:** Info Card's Workspace Image
-- **Do NOT use for:** Any, other than the Info Card's Workspace Image
-- **Tailwind utilities applied:**
-  - `w-full`           
-  - `h-full`
-  - `mt-4`
-  - `rounded-md`
+## `.blog-news-card-title`
+
+### Purpose
+Small card title text.
+
+### Tailwind Applied
+
+```css
+text-sm font-semibold text-brand-gray
+```
 
 ---
 
-### Info Card Title 
-- **Class name:** `.info-card-title`
-- **Layer:** components
-- **Category:** Text
-- **Used for:** Info Card Title's Text
-- **Do NOT use for:** Any Text, other than the Info Card's Title.
-- **Tailwind utilities applied:**
-  - `text-xl`                
-  - `font-semibold`
-  - `mt-2`
-  - `mb-4`
-  - `text-left`
-  - `text-brand-charcoal `
-  - `px-1 `
-  - `py-1`
----
-
-### Info Card Frame
-- **Class name:** `.info-card-frame`
-- **Layer:** components
-- **Category:** Icon
-- **Used for:** Info Card's Icon
-- **Do NOT use for:** Any Text, other than the Info Card's Icon.
-- **Tailwind utilities applied:**
-  - `w-20`                  
-  - `h-10 `
-  - `mt-1`
+# PROFILE CARDS
 
 ---
 
+## `.profile-card`
 
-### Info Card Body
-- **Class name:** `.info-card-body`
-- **Layer:** components
-- **Category:** Text
-- **Used for:** Info Card's Body Text
-- **Do NOT use for:** Any Text, other than the Info Card's Body.
-- **Tailwind utilities applied:**
-  - `text-base`                    
-  - `font-normal `
-  - `text-left`
-  - `text-brand-charcoal `
- 
----
+### Purpose
+Team member cards.
 
+### Tailwind Applied
 
-### Blog News Card
-- **Class name:** `.blog-news-card`
-- **Layer:** components
-- **Category:** Card
-- **Used for:** Blog News Card's Main Container
-- **Do NOT use for:** Any Card Container, other than the Blog News Card.
-- **Tailwind utilities applied:**
-  - `px-4`            ;            
-  - `py-5 `
-  - `shadow-md`
-  - `rounded-xl`
-  - `max-w-[500px]`
-  - ` w-full `
-  - `px-1 `
-  - `py-1`
----
-
-
-### Blog News Card Title
-- **Class name:** `.blog-news-card-header`
-- **Layer:** components
-- **Category:** Text
-- **Used for:** Blog News Card's Header Title
-- **Do NOT use for:** Any Card Title, other than the Blog News Card Header Title.
-- **Tailwind utilities applied:**
-  - `text-sm`                    
-  - `font-semibold `
-  - `text-left`
-  - `text-brand-gray`
+```css
+w-full max-w-sm flex flex-col items-center rounded-xl border-2
+pt-6 pb-6 px-5 text-center shadow-sm
+bg-brand-blue50 border-brand-gray
+```
 
 ---
 
+## `.profile-card__avatar-wrap`
 
-### Blog News Card Frame
-- **Class name:** `.blog-news-card-frame`
-- **Layer:** components
-- **Category:** Icon
-- **Used for:** Blog News Card's Icon
-- **Do NOT use for:** Any Card Icon, other than the Blog News Card Icon.
-- **Tailwind utilities applied:**
-  - `w-8`            ;            
-  - `h-2`
-  - `m-1`
+### Purpose
+Avatar outer wrapper.
+
+### Tailwind Applied
+
+```css
+w-32 h-32 rounded-full bg-brand-white p-1.5 shadow-md
+```
+
 ---
 
-### Blog News Card Workspace
-- **Class name:** `.blog-news-card-workspace`
-- **Layer:** components
-- **Category:** Image
-- **Used for:** Blog News Card's Workspace Image
-- **Do NOT use for:** Any Card Image, other than the Blog News Card Workspace Image.
-- **Tailwind utilities applied:**
-  - `w-full`                     
-  - `h-48`
-  - `mt-4`
-  - `mb-1`
-  - `rounded-md`
+## `.profile-card__avatar`
+
+### Purpose
+Profile image styling.
+
+### Tailwind Applied
+
+```css
+w-full h-full rounded-full object-cover
+```
+
 ---
 
-### Circular Image
-- **Class name:** `.circular-images`
-- **Layer:** components
-- **Category:** Image
-- **Used for:** Circular Images
-- **Do NOT use for:** Any Image not a Circular Image.
-- **Tailwind utilities applied:**
-  - `max-w-[70px]`                       
-  - `max-h-[70px]`
-  - `rounded-full`
-  
+# GALLERY UTILITIES
+
 ---
+
+## `.girls-card`
+
+### Purpose
+Gallery image card.
+
+### Tailwind Applied
+
+```css
+w-full rounded-2xl overflow-hidden
+```
+
+---
+
+## `.girls-pic`
+
+### Purpose
+Gallery image behavior.
+
+### Tailwind Applied
+
+```css
+w-full h-[220px] sm:h-[260px] md:h-[315px] object-cover
+```
+
+---
+
+## `.girls-top`
+
+### Purpose
+Gallery card top section.
+
+### Tailwind Applied
+
+```css
+w-full flex items-center justify-between px-4 py-4
+```
+
+---
+
+# NAVBAR
+
+---
+
+## `.navbar-container`
+
+### Purpose
+Main navbar wrapper.
+
+### Tailwind Applied
+
+```css
+bg-brand-purple text-brand-white w-full flex
+justify-between items-center sticky top-0 p-2
+```
+
+---
+
+## `.navbar-links-wrapper`
+
+### Purpose
+Desktop nav links wrapper.
+
+### Tailwind Applied
+
+```css
+hidden md:flex items-center gap-4 text-sm
+font-medium mr-4
+```
+
+---
+
+## `.navbar-links`
+
+### Purpose
+Individual nav link.
+
+### Tailwind Applied
+
+```css
+p-2 hover:text-brand-yellow
+```
+
+---
+
+## `.hamburger-icon`
+
+### Purpose
+Mobile menu icon.
+
+### Tailwind Applied
+
+```css
+mt-2 cursor-pointer md:hidden
+```
+
+---
+
+## `.mobile-menu`
+
+### Purpose
+Dropdown mobile navigation container.
+
+### Notes
+Hidden by default.
+JS adds `.open`.
+
+---
+
+## `.mobile-menu.open`
+
+### Purpose
+Shows mobile menu.
+
+### Tailwind Applied
+
+```css
+flex flex-col
+```
+
+---
+
+# PROGRAMS DROPDOWN
+
+---
+
+## `.programs`
+
+Wrapper for dropdown logic.
+
+---
+
+## `.programs-wrapper`
+
+Flex alignment for dropdown trigger.
+
+---
+
+## `.programs-toggle`
+
+Clickable dropdown toggle button.
+
+---
+
+## `.programs-chevron`
+
+Chevron rotation animation.
+
+---
+
+## `.mobile-only`
+
+Mobile-only dropdown menu.
+
+---
+
+## `.desktop-only`
+
+Desktop-only dropdown menu.
+
+---
+
+# FOOTER
+
+---
+
+## `.footer-container`
+
+### Purpose
+Footer wrapper.
+
+### Tailwind Applied
+
+```css
+bg-brand-white text-brand-charcoal w-full px-10 pt-20
+```
+
+---
+
+## `.footer-webpages-link`
+
+### Purpose
+Footer navigation links.
+
+### Tailwind Applied
+
+```css
+flex flex-wrap gap-3 text-sm font-bold py-5
+```
+
+---
+
+## `.media-icons`
+
+### Purpose
+Social media icons container.
+
+### Tailwind Applied
+
+```css
+flex justify-center md:justify-start gap-6
+```
+
+---
+
+## `.newsletter`
+
+### Purpose
+Newsletter layout wrapper.
+
+### Tailwind Applied
+
+```css
+flex flex-col md:flex-row md:items-center gap-3 my-10
+```
+
+---
+
+# IMPACT SECTION
+
+---
+
+## `.impact-card-background`
+
+### Purpose
+Purple impact section card.
+
+### Tailwind Applied
+
+```css
+text-center bg-brand-purple bg-cover bg-blend-soft-light
+shadow-xl rounded-lg mx-8 md:mx-20 mt-20 mb-2 p-8
+```
+
+---
+
+## `.impact-card-h1`
+
+### Purpose
+Impact section heading.
+
+### Tailwind Applied
+
+```css
+font-bold text-xl md:text-3xl text-brand-charcoal font-heading
+```
+
+---
+
+## `.tiny-codes-snippet`
+
+### Purpose
+Decorative background code snippets.
+
+### Tailwind Applied
+
+```css
+text-right text-sm flex justify-end text-brand-blue mb-10
+```
+
+---
+
+# INTRO CARD UTILITIES
+
+---
+
+## `.intro-cards-container`
+
+### Purpose
+Layout wrapper for intro/about cards.
+
+### Tailwind Applied
+
+```css
+m-10 text-brand-charcoal block md:flex gap-8
+```
+
+---
+
+## `.card-box-wrapper`
+
+### Purpose
+Grid wrapper for mini feature cards.
+
+### Tailwind Applied
+
+```css
+grid md:grid-cols-2 gap-2 p-2
+```
+
+---
+
+## `.card-box`
+
+### Purpose
+Mini tag/feature boxes.
+
+### Tailwind Applied
+
+```css
+border-2 border-brand-gray p-2 rounded-xl
+```
+
+---
+
+## `.card-bg`
+
+### Purpose
+Purple section background card.
+
+### Tailwind Applied
+
+```css
+mx-8 md:mx-20 mt-20 shadow-xl rounded-lg
+bg-brand-purple text-center
+```
+
+---
+
+## `.bg-circle`
+
+### Purpose
+Decorative background circles.
+
+### Tailwind Applied
+
+```css
+w-16 h-16 rounded-full bg-brand-purple50 absolute
+```
+
+---
+
+# IMAGE CROPPING GUIDE
+
+If images appear cropped unexpectedly:
+
+## BAD
+
+```html
+<img class="w-full h-full object-cover">
+```
+
+`object-cover` fills the container and crops overflow.
+
+---
+
+## BETTER
+
+```html
+<div class="blog-news-card-workspace-wrap">
+  <img
+    src="/image.png"
+    class="blog-news-card-workspace"
+  />
+</div>
+```
+
+This project now uses wrapper containers for workspace images to preserve aspect ratio more naturally.
+
+---
+
+# Final Notes
+
+Before creating a new utility:
+
+✅ Check if an existing class already solves the problem.
+
+Prefer:
+- reusable components
+- semantic class names
+- consistent spacing
+- shared card systems
+
+Avoid:
+- one-off utility duplication
+- inline styles unless absolutely necessary
+- random spacing values outside the design system

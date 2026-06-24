@@ -1,0 +1,796 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #1a1a2e;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   ACTIVITY SHELL  (used by all activity pages)
+   ============================================================ */
+.activity-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.act-header {
+  background: #16213e;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid #e94560;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.act-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.act-header .header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.act-header h1 {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.back-btn {
+  color: #7ec8e3;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 2px solid #0f3460;
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+.back-btn:hover { border-color: #7ec8e3; }
+
+/* Progress bar in header */
+.act-header .progress-bar {
+  width: 120px;
+  height: 6px;
+  background: #0f3460;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.act-header .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e94560, #f77f00);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.act-header .progress-text {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Goal banner */
+.goal-banner {
+  background: #0f3460;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #ddd;
+  line-height: 1.5;
+  border-bottom: 1px solid #1a1a2e;
+}
+.goal-label {
+  font-weight: 800;
+  color: #e94560;
+  margin-right: 6px;
+}
+
+/* Level nav */
+nav.levels {
+  padding: 8px 14px;
+  background: #16213e;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #0f3460;
+}
+
+/* ============================================================
+   SHARED COMPONENTS
+   ============================================================ */
+header {
+  background: #16213e;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 3px solid #e94560;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.logo span { color: #e94560; }
+
+.day-tag {
+  background: #e94560;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.mission {
+  margin-left: auto;
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 600;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* ── Blockly panel ── */
+#blockly-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panel-label {
+  background: #0f3460;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #7ec8e3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#blocklyDiv {
+  flex: 1;
+  min-height: 400px;
+}
+
+/* ── Right panel ── */
+#right-panel {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid #0f3460;
+  background: #16213e;
+  overflow-y: auto;
+}
+
+/* Level selector */
+.levels {
+  padding: 12px 16px;
+  background: #0f3460;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.activity-switch .level-btn {
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+#block-counter { background: transparent; border-left: 1px solid rgba(255,255,255,0.03); padding-left: 12px; }
+#block-count.green { color: #06d6a0 !important; }
+
+.levels span {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #7ec8e3;
+  margin-right: 4px;
+}
+
+.level-btn {
+  background: #1a1a2e;
+  border: 2px solid #0f3460;
+  color: #aaa;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.level-btn.active {
+  background: #e94560;
+  border-color: #e94560;
+  color: #fff;
+}
+
+.level-btn:hover:not(.active) {
+  border-color: #7ec8e3;
+  color: #7ec8e3;
+}
+
+/* Goal card */
+.goal-card {
+  margin: 12px;
+  background: #0f3460;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border-left: 4px solid #e94560;
+}
+
+.goal-card .goal-title {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #e94560;
+  margin-bottom: 6px;
+}
+
+.goal-card .goal-text {
+  font-size: 13px;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+/* Activity panels — shown/hidden based on active class */
+.activity-panel {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.activity-panel.active {
+  display: flex;
+}
+
+/* Target area */
+.target-area {
+  padding: 0 12px;
+}
+
+.target-area .area-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #7ec8e3;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stacks-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.stack-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stack-col .col-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #aaa;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.stack-bricks {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 20px;
+  align-items: center;
+}
+
+/* ── Brick styles (used in lego activity) ── */
+.brick {
+  width: 80px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  margin: 2px 0;
+  transition: all 0.15s;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+.brick.wrong { outline: 3px solid #e94560; outline-offset: 2px; }
+.brick.ok    { outline: 3px solid #06d6a0; outline-offset: 2px; }
+
+.stack-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 80px;
+  gap: 3px;
+  padding: 8px 4px;
+}
+
+.empty-hint {
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  font-style: italic;
+  text-align: center;
+  padding: 8px;
+}
+
+/* area-label inside main-area */
+.area-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #7ec8e3;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 12px 4px;
+}
+
+.stack-panel {
+  width: 220px;
+  flex-shrink: 0;
+  background: #16213e;
+  border-right: 2px solid #0f3460;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+}
+
+.workspace-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.workspace-toolbar {
+  background: #0f3460;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.run-btn {
+  background: #06d6a0;
+  color: #0f3460;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 7px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.run-btn:hover { background: #04c48e; }
+
+.clear-btn {
+  background: #e94560;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.clear-btn:hover { background: #d63651; }
+
+.block-counter {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 700;
+}
+
+.blockly-area {
+  flex: 1;
+  min-height: 380px;
+}
+
+/* LEGO brick SVG-style */
+.lego-brick {
+  width: 60px;
+  height: 24px;
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+.lego-brick::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 7px;
+  border-radius: 3px 3px 0 0;
+  background: inherit;
+  filter: brightness(1.1);
+  box-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+}
+.lego-brick.red    { background: #e63946; }
+.lego-brick.blue   { background: #457b9d; }
+.lego-brick.yellow { background: #f4d35e; color: rgba(0,0,0,0.5); }
+.lego-brick.green  { background: #2d6a4f; }
+.lego-brick.orange { background: #f77f00; }
+.lego-brick.white  { background: #e9ecef; color: rgba(0,0,0,0.4); }
+.lego-brick.purple { background: #7b2d8b; }
+.lego-brick.pink   { background: #e07a96; }
+.lego-brick.ghost {
+  background: transparent !important;
+  border: 2px dashed rgba(255,255,255,0.15);
+  box-shadow: none;
+  color: rgba(255,255,255,0.2);
+  font-size: 9px;
+}
+.lego-brick.ghost::before { display: none; }
+.lego-brick.correct { outline: 3px solid #06d6a0; outline-offset: 2px; }
+.lego-brick.wrong   { outline: 3px solid #e94560; outline-offset: 2px; }
+
+/* Controls */
+.controls {
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+  min-width: 80px;
+}
+
+.btn-run  { background: #06d6a0; color: #0f3460; }
+.btn-run:hover { background: #04c48e; transform: translateY(-1px); }
+.btn-run:active { transform: translateY(0); }
+.btn-clear { background: #e94560; color: #fff; }
+.btn-clear:hover { background: #d63651; transform: translateY(-1px); }
+
+/* Feedback */
+.feedback {
+  margin: 0 12px 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  display: none;
+  line-height: 1.4;
+}
+.feedback.success { background: rgba(6,214,160,0.15);  border: 2px solid #06d6a0; color: #06d6a0; display: block; }
+.feedback.error   { background: rgba(233,69,96,0.15);  border: 2px solid #e94560; color: #e94560; display: block; }
+.feedback.info    { background: rgba(126,200,227,0.15); border: 2px solid #7ec8e3; color: #7ec8e3; display: block; }
+
+/* Progress bar */
+.progress-wrap { padding: 0 12px 12px; }
+.progress-label {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-bar {
+  height: 6px;
+  background: #0f3460;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e94560, #f77f00);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* Divider */
+.divider { border: none; border-top: 1px solid #0f3460; margin: 4px 12px; }
+
+/* Celebration overlay */
+.celebration-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,30,0.88);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.celebration-box {
+  background: #16213e;
+  border: 3px solid #e94560;
+  border-radius: 20px;
+  padding: 40px 48px;
+  text-align: center;
+  max-width: 420px;
+  animation: pop 0.4s ease;
+}
+.celebration-emoji { font-size: 52px; margin-bottom: 12px; }
+.celebration-box p { font-size: 16px; color: #ddd; margin-bottom: 10px; line-height: 1.5; }
+.celebration-box button {
+  background: #e94560;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.celebration-box button:hover { background: #d63651; }
+
+#celebration {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,30,0.85);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+#celebration.show { display: flex; }
+#celebration .big-text {
+  font-size: 48px;
+  font-weight: 900;
+  color: #f4d35e;
+  text-align: center;
+  animation: pop 0.4s ease;
+}
+#celebration .sub-text {
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+  max-width: 320px;
+}
+.btn-next {
+  background: #e94560;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.btn-next:hover { background: #d63651; }
+
+@keyframes pop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+@media (max-width: 700px) {
+  .main, .main-area { flex-direction: column; }
+  #right-panel, .stack-panel, .stage-panel { width: 100%; border-left: none; border-top: 2px solid #0f3460; }
+  #blocklyDiv, .blockly-area { min-height: 280px; }
+}
+
+/* ============================================================
+   STAGE ENGINE styles (Days 3, 4, 5)
+   ============================================================ */
+.stage-screen {
+  background: #1a1a2e;
+  border: 2px solid #0f3460;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Realistic photo backgrounds ──────────────────────────────
+   Each class uses a high-quality Unsplash photo as the base,
+   with a subtle gradient overlay so the stage characters and
+   speech bubbles remain readable on top.
+   Photo IDs are stable "source" URLs — no API key needed.
+   ──────────────────────────────────────────────────────────── */
+
+/* City — downtown skyline at dusk */
+.bg-city {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(10, 10, 30, 0.25) 0%,
+      rgba(10, 10, 30, 0.55) 100%
+    ),
+    url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+/* Forest — sunlight breaking through dense green trees */
+.bg-forest {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 30, 10, 0.15) 0%,
+      rgba(0, 30, 10, 0.50) 100%
+    ),
+    url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+/* Space — deep galaxy with stars and nebula */
+.bg-space {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 10, 0.20) 0%,
+      rgba(0, 0, 20, 0.55) 100%
+    ),
+    url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+/* Beach — tropical sandy shore with turquoise water */
+.bg-beach {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(10, 60, 90, 0.10) 0%,
+      rgba(200, 160, 80, 0.30) 100%
+    ),
+    url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+/* Home — cosy living room interior */
+.bg-home {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(30, 20, 10, 0.15) 0%,
+      rgba(30, 20, 10, 0.45) 100%
+    ),
+    url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=640&q=80&fit=crop')
+    center center / cover no-repeat;
+}
+
+.key-btn {
+  background: #0f3460;
+  border: 2px solid #3498db;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.key-btn:hover  { background: #3498db; }
+.key-btn.active { background: #3498db; transform: scale(0.95); }
+.key-btn.locked { opacity: 0.35; cursor: not-allowed; }
+
+.hidden { display: none !important; }
+
+/* Traffic light bulbs (Day 3) */
+.bulb {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1a1a2e;
+  border: 3px solid #0f3460;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.bulb[data-color="red"]    { background: #3a1a1a; border-color: #e74c3c; }
+.bulb[data-color="yellow"] { background: #3a3a1a; border-color: #f1c40f; }
+.bulb[data-color="green"]  { background: #1a3a1a; border-color: #2ecc71; }
+.bulb[data-color="orange"] { background: #3a2a1a; border-color: #e67e22; }
+.bulb[data-color="pink"]   { background: #3a1a2a; border-color: #ff69b4; }
+.bulb.on[data-color="red"]    { background: #e74c3c; box-shadow: 0 0 16px #e74c3c; }
+.bulb.on[data-color="yellow"] { background: #f1c40f; box-shadow: 0 0 16px #f1c40f; }
+.bulb.on[data-color="green"]  { background: #2ecc71; box-shadow: 0 0 16px #2ecc71; }
+.bulb.on[data-color="orange"] { background: #e67e22; box-shadow: 0 0 16px #e67e22; }
+.bulb.on[data-color="pink"]   { background: #ff69b4; box-shadow: 0 0 16px #ff69b4; }
+.bulb.locked { opacity: 0.2; cursor: not-allowed; pointer-events: none; }
+
+/* Mini bricks in Day 5 brick preview */
+.mini-brick {
+  width: 20px;
+  height: 12px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* ============================================================
+   BLOCKLY TEXT INPUT  (FieldTextInput editing widget)
+   Blockly injects a real <input> into the SVG when the user
+   clicks a text field. Without overrides it gets browser
+   defaults — often white-on-white or black-on-black inside
+   a dark theme. These rules make it always readable.
+   ============================================================ */
+.blocklyHtmlInput {
+  background: #0f3460 !important;
+  color: #ffffff !important;
+  border: 2px solid #7ec8e3 !important;
+  border-radius: 6px !important;
+  padding: 2px 2px !important;
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(126,200,227,0.25) !important;
+  caret-color: #7ec8e3 !important;
+}
+
+.blocklyHtmlInput::selection {
+  background: #7ec8e3 !important;
+  color: #0f3460 !important;
+  padding: 20px 22px !important;
+  overflow: visible;
+}

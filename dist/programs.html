@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Programs</title>
+
+    <style>
+      * {
+        font-family: "DM Sans", sans-serif;
+      }
+
+      h1,
+      h2,
+      h3,
+      .font-display {
+        font-family: "Syne", sans-serif;
+      }
+
+      .code-tag {
+        position: absolute;
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 4px;
+        white-space: nowrap;
+        pointer-events: none;
+        animation: floatTag 6s ease-in-out infinite;
+      }
+
+      @keyframes floatTag {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+      }
+
+      .code-tag-1 { animation-delay: 0s; }
+      .code-tag-2 { animation-delay: 2s; }
+      .code-tag-3 { animation-delay: 4s; }
+
+      .hero-overlay {
+        background: linear-gradient(
+          120deg,
+          rgba(37, 99, 235, 0.82) 0%,
+          rgba(67, 56, 202, 0.72) 60%,
+          rgba(109, 40, 217, 0.55) 100%
+        );
+      }
+
+     
+    </style>
+    <script type="module" crossorigin src="/assets/main-BvP5OTCw.js"></script>
+  </head>
+
+  <body class="bg-white text-gray-900">
+    <div id="app">
+      <div data-include="/components/program/hero.html"></div>
+
+      <div data-include="/components/program/feature-dream.html"></div>
+      <div data-include="/components/program/gallery-blue.html"></div>
+
+      <div data-include="/components/program/feature-teacher.html"></div>
+      <div data-include="/components/program/gallery-purple.html"></div>
+
+      <div data-include="/components/program/feature-summer.html"></div>
+      <div data-include="/components/program/gallery-violet.html"></div>
+
+      <div data-include="/components/program/feature-curriculum.html"></div>
+      <div data-include="/components/program/gallery-blue.html"></div>
+    </div>
+  </body>
+</html>

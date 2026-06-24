@@ -1,39 +1,259 @@
  <div id="app">
-    <!-- Only your unique page content goes here -->
-     <section class="hero-section">
-      <div class="absolute inset-0 bg-[url('/assets/img/cch_background_image_hero-section.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div class="absolute inset-0 bg-brand-purple/60"></div>
-      <div class=" relative flex flex-col items-center justify-center text-center pt-32 pb-12">
-       <div class="relative w-fit mx-auto">
-        <h1 class="hero-header-text">Foundations First. Futures Forever.</h1>
+    <main class="page-wrapper">
 
-         <button class="hero-btn bg-brand-aqua/5 absolute -top-10 -left-8 ">
-    print("Hello World!")
-  </button>
+  <!-- ================= HERO SECTION ================= -->
+  <section class="hero-section relative overflow-hidden">
 
-  <!-- Top Right -->
-  <button class="hero-btn bg-brand-yellow/20 text-brand-yellow absolute -top-6 -right-10 ">
-    &lt;h1&gt;Dream Big&lt;/h1&gt;
-  </button>
-       </div> 
-    
-    <p class=" text-xl font-sans font-light max-w-[42ch] lg:max-w-[41ch] text-center mb-12">We equip underrepresented children with 
-      coding skills and digital confidence — empowering
-       them to <span class="text-brand-coral"> imagine</span>, <span class="text-brand-aqua">create</span> , and <span class="text-brand-yellow">lead.</span></p>
-    <img src="assets/images/hero-section-coding-workspace.png" class=" mb-10" alt="">
-    <div class="flex flex-row gap-6 mt-4">
-       <button class="btn-primary bg-brand-yellow w-auto text-black flex items-center gap-1">
-        <img src="/assets/icons/RocketLaunch.png" alt="" srcset="">
-      Explore Our Programs
-    </button>
-    <button class="btn-primary bg-brand-white text-black w-auto ">
-      Support the Movement
-    </button>
+    <div class="absolute inset-0 bg-[url('assets/images/kids.jpg')] bg-cover bg-center bg-no-repeat"></div>
+    <div class="absolute inset-0 bg-brand-purple/60"></div>
+
+    <!-- FIX: padding added so text never touches edges -->
+    <div class="container relative flex flex-col items-center justify-center text-center pt-32 pb-12 px-4">
+
+      <div class="relative w-fit mx-auto">
+
+        <h1 class="hero-header-text px-2 md:px-0">
+          Foundations First. Futures Forever.
+        </h1>
+
+        <button class="btn btn-outline absolute -top-10 -left-8 text-brand-aqua text-xs">
+          print("Hello World!")
+        </button>
+
+        <button class="btn btn-outline absolute -top-6 -right-10 text-brand-yellow text-xs">
+          &lt;h1&gt;Dream Big&lt;/h1&gt;
+        </button>
+
+      </div>
+
+      <p class="text-xl font-sans font-light max-w-[42ch] lg:max-w-[41ch] text-center mb-12 mt-6 px-4">
+        We equip underrepresented children with coding skills and digital confidence — empowering them to
+        <span class="text-brand-coral">imagine</span>,
+        <span class="text-brand-aqua">create</span>,
+        and <span class="text-brand-yellow">lead.</span>
+      </p>
+
+      <img
+        src="assets/images/hero-section-coding-workspace.png"
+        class="mb-10 px-4"
+        alt="Coding workspace illustration"
+      >
+
+      <div class="flex flex-col md:flex-row gap-6 mt-4 px-4">
+
+        <button class="btn-primary">
+          <img src="assets/icons/RocketLaunch.png" class="btn-icon" alt="rocket icon">
+          Explore Our Programs
+        </button>
+
+        <button class="btn-secondary">
+          Support the Movement
+        </button>
+
+      </div>
+
     </div>
-  
-     </section>
+  </section>
 
-   
+  <!-- ================= WHO WE ARE ================= -->
+  <section class="section-block bg-gradient">
 
+    <div class="container text-center">
+
+      <span class="btn-icon-wrapper">
+        <img src="assets/icons/Tag.png" alt="tag icon">
+      </span>
+
+      <h1 class="hero-header-text text-brand-blue mt-4">
+        Who We Are
+      </h1>
+
+      <div class="bg-circle ml-20 md:ml-44"></div>
+
+      <span class="tiny-codes-snippet md:flex lg:mr-52">
+        function thecodeclubhouse &lpar;
+      </span>
+
+    </div>
+
+    <div class="container mt-10">
+
+      <div class="intro-cards-container justify-center">
+
+        <!-- LEFT SIDE -->
+        <div class="block md:w-1/2 ml-2">
+
+          <div class="border-l-4 border-brand-purple">
+
+            <p class="pl-4 mb-4">
+              At <span class="font-bold text-brand-blue"> The Coding Clubhouse</span>, we believe every child deserves a chance to code.
+              We are a non-profit empowering children, especially those in underrepresented communities, with foundational skills in computer science and creative problem solving.
+            </p>
+
+            <p class="pl-4 mb-4">
+              We give children that chance through our Dream Beyond Limits events, teachers training programs, summer coding classes, and our inclusive Code Equity Curriculum. Whether in school or community <i>we&apos;re building a space where kids can dream and build boldly.</i>
+            </p>
+
+          </div>
+
+          <!-- TAG BOXES (FULL RESTORED) -->
+          <div class="card-box-wrapper">
+
+            <span class="card-box flex pt-4 md:pt-2">
+              <img src="assets/icons/Inclusive.png" alt="inclusive icon">
+              Inclusive
+            </span>
+
+            <span class="card-box flex">
+              <img src="assets/icons/Frame 1597884968.png" alt="community icon">
+              Community Focused
+            </span>
+
+            <span class="card-box flex">
+              <img src="assets/icons/Frame 1597884969.png" alt="impact icon">
+              Impact Driven
+            </span>
+
+            <span class="card-box flex">
+              <img src="assets/icons/Frame 1597884970.png" alt="globe icon">
+              Accessible
+            </span>
+
+          </div>
+
+          <!-- BUTTON FIXED -->
+          <button class="btn-outline m-4">
+            Learn More
+            <img src="assets/Building-Blocks/Icon.png" class="btn-icon" alt="arrow icon">
+          </button>
+
+        </div>
+
+        <!-- RIGHT CARD -->
+        <div class="blog-news-card bg-brand-white md:w-1/2">
+
+          <div class="blog-news-card-header">
+            <img src="assets/icons/web tab.png" class="blog-news-card-frame" alt="">
+            <h3 class="blog-news-card-title">our-mission.js</h3>
+          </div>
+
+          <img
+            src="assets/images/Coding-workspace-card.png"
+            alt="Coding workspace"
+            class="blog-news-card-workspace"
+          >
+
+          <div class="card-box-wrapper grid-cols-2">
+
+            <span class="card-box p-2 bg-brand-aqua50 text-center">
+              <span class="text-brand-aqua font-bold text-2xl block">&infin;</span>
+              Potential
+            </span>
+
+            <span class="card-box p-2 bg-orange-100 text-center">
+              <span class="text-brand-coral font-bold block">100%</span>
+              Inclusive
+            </span>
+
+            <span class="card-box p-2 bg-brand-violet50 text-center">
+              <span class="text-brand-purple font-bold block">0</span>
+              Barriers
+            </span>
+
+            <span class="card-box p-2 bg-yellow-100 text-center">
+              <span class="text-brand-yellow font-bold block">1</span>
+              Mission
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= WHAT WE DO ================= -->
+  <section class="info-section bg-hero-gradient">
+
+    <div class="container text-center">
+
+      <span class="btn-icon-wrapper">
+        <img src="assets/icons/card-tag.png" alt="tag icon">
+      </span>
+
+      <h1 class="hero-header-text my-4 text-brand-purple">
+        What We Do
+      </h1>
+
+      <p class="max-w-3xl mx-auto px-4">
+        We design inclusive, beginner-friendly programs that introduce children and communities to the world of tech with no prior experience needed.
+      </p>
+
+      <h3 class="info-card-title text-center p-5">
+        Featured Programs
+      </h3>
+
+      <small class="text-brand-violet flex justify-end mb-4">
+        function learn [] &lbrace;
+      </small>
+
+    </div>
+
+    <div class="container">
+
+      <div class="block md:flex gap-8 justify-center">
+
+        <!-- FULL CARDS RESTORED -->
+        <div class="info-card bg-brand-aqua50 p-5 mb-4">
+          <img src="assets/icons/Frame 1597884959.png" alt="">
+          <h3 class="info-card-title">Dream Beyond Limits</h3>
+          <p class="info-card-body">
+            A hands-on outreach program that selects three promising students and one teacher from each participating school. We inspire them through coding sessions and leave behind our Code Equity curriculum.
+          </p>
+          <div class="info-card-workspace">
+            <img src="assets/images/Coding workspace.png" alt="">
+          </div>
+        </div>
+
+        <div class="info-card bg-brand-yellow50 p-5 mb-4">
+          <img src="assets/icons/teacher-tag.png" alt="">
+          <h3 class="info-card-title">Teacher Training &amp; Youth Empowerment</h3>
+          <p class="info-card-body">
+            We equip teachers and local youth with the skills to teach coding confidently. This builds a community of trained educators who champion digital literacy.
+          </p>
+          <div class="info-card-workspace">
+            <img src="assets/images/Coding workspace (1).png" alt="">
+          </div>
+        </div>
+
+        <div class="info-card bg-brand-coral50 p-5 mb-4">
+          <img src="assets/icons/Frame 1597884959 (1).png" alt="">
+          <h3 class="info-card-title">Virtual Summer Classes</h3>
+          <p class="info-card-body">
+            Our annual summer program brings tech education to even more children online. With web development, game design, AI, and computer science basics — every child finds something to explore.
+          </p>
+          <div class="info-card-workspace">
+            <img src="assets/images/Coding workspace (2).png" alt="">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA FIXED -->
+    <div class="container text-center">
+
+      <button class="btn-primary mx-auto">
+        <img src="assets/icons/RocketLaunch.png" class="btn-icon" alt="">
+        Explore our programs
+      </button>
+
+    </div>
+
+  </section>
+
+</main>
   </div>
-    <script src="/javaScript/main.js"></script>
+    <script  src="javaScript/main.js" type="module"></script>
